@@ -6,21 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://passionzz.cn">
-  <title>【剑指offer】树的子结构 | 翔仔年轻有力量</title>
+  <title>【剑指offer】字符串的排列 | 翔仔年轻有力量</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="题目描述&amp;ensp;&amp;ensp;输入两棵二叉树A，B，判断B是不是A的子结构。（空树不是任意一个树的子结构）  给定两个二叉树root1和root2 定义函数判断root2是否root1的子结构，即root1中是否包含root2 二叉树节点定义如下：123456789public class TreeNode &amp;#123;    int val &#x3D; 0;    TreeNode left &#x3D; nu">
+  <meta name="description" content="题目描述&amp;ensp;&amp;ensp;输入一个字符串,按字典序打印出该字符串中字符的所有排列。例如输入字符串abc,则打印出由字符a,b,c所能排列出来的所有字符串abc,acb,bac,bca,cab和cba。  给定一个字符串,长度不超过9(可能有字符重复),字符只包括大小写字母。 定义函数输出字符串的全排列   牛客网OJ原题链接：字符串的排列">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【剑指offer】树的子结构">
-<meta property="og:url" content="https://passionzz.cn/2020/07/13/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E6%A0%91%E7%9A%84%E5%AD%90%E7%BB%93%E6%9E%84/index.html">
+<meta property="og:title" content="【剑指offer】字符串的排列">
+<meta property="og:url" content="https://passionzz.cn/2020/07/19/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E6%8E%92%E5%88%97/index.html">
 <meta property="og:site_name" content="翔仔年轻有力量">
-<meta property="og:description" content="题目描述&amp;ensp;&amp;ensp;输入两棵二叉树A，B，判断B是不是A的子结构。（空树不是任意一个树的子结构）  给定两个二叉树root1和root2 定义函数判断root2是否root1的子结构，即root1中是否包含root2 二叉树节点定义如下：123456789public class TreeNode &amp;#123;    int val &#x3D; 0;    TreeNode left &#x3D; nu">
+<meta property="og:description" content="题目描述&amp;ensp;&amp;ensp;输入一个字符串,按字典序打印出该字符串中字符的所有排列。例如输入字符串abc,则打印出由字符a,b,c所能排列出来的所有字符串abc,acb,bac,bca,cab和cba。  给定一个字符串,长度不超过9(可能有字符重复),字符只包括大小写字母。 定义函数输出字符串的全排列   牛客网OJ原题链接：字符串的排列">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-07-13T13:09:31.000Z">
-<meta property="article:modified_time" content="2020-07-13T13:31:25.365Z">
+<meta property="article:published_time" content="2020-07-19T08:08:44.000Z">
+<meta property="article:modified_time" content="2020-07-19T09:23:51.667Z">
 <meta property="article:author" content="PassionZz&#x2F;ZYX">
 <meta property="article:tag" content="剑指offer">
-<meta property="article:tag" content="二叉树">
 <meta property="article:tag" content="算法&amp;数据结构">
+<meta property="article:tag" content="字符串">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="翔仔年轻有力量" type="application/atom+xml">
@@ -182,14 +182,14 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-【剑指offer】树的子结构" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-【剑指offer】字符串的排列" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      【剑指offer】树的子结构
+      【剑指offer】字符串的排列
     </h1>
   
 
@@ -200,33 +200,29 @@ var _hmt = _hmt || [];
 		  <i class="icon-smile icon"></i> 阅读数：<span id="busuanzi_value_page_pv"></span>次
 	</span>
 
-<a href="/2020/07/13/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E6%A0%91%E7%9A%84%E5%AD%90%E7%BB%93%E6%9E%84/" class="archive-article-date">
-  	<time datetime="2020-07-13T13:09:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-13</time>
+<a href="/2020/07/19/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E6%8E%92%E5%88%97/" class="archive-article-date">
+  	<time datetime="2020-07-19T08:08:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-19</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>&ensp;&ensp;输入两棵二叉树A，B，判断B是不是A的子结构。（空树不是任意一个树的子结构）</p>
+        <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>&ensp;&ensp;输入一个字符串,按字典序打印出该字符串中字符的所有排列。例如输入字符串abc,则打印出由字符a,b,c所能排列出来的所有字符串abc,acb,bac,bca,cab和cba。</p>
 <ol>
-<li>给定两个二叉树root1和root2</li>
-<li>定义函数判断root2是否root1的子结构，即root1中是否包含root2</li>
-<li>二叉树节点定义如下：<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TreeNode</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> val = <span class="number">0</span>;</span><br><span class="line">    TreeNode left = <span class="keyword">null</span>;</span><br><span class="line">    TreeNode right = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">TreeNode</span><span class="params">(<span class="keyword">int</span> val)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.val = val;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<li>给定一个字符串,长度不超过9(可能有字符重复),字符只包括大小写字母。</li>
+<li>定义函数输出字符串的全排列</li>
+</ol>
+<blockquote>
+<p>牛客网OJ原题链接：<a href="https://www.nowcoder.com/practice/fe6b651b66ae47d7acce78ffdd9a96c7" target="_blank" rel="noopener">字符串的排列</a></p>
+</blockquote>
 <a id="more"></a>
-<h2 id="思路方法"><a href="#思路方法" class="headerlink" title="思路方法"></a>思路方法</h2></li>
-</ol>
-<ul>
-<li>采用递归的方法，对二叉树中的节点逐个与root2根节点的值进行匹配，若匹配成功，匹配两者的左子节点和右子节点。</li>
-<li>若当前节点值与root2根节点值不匹配，则递归判断当前节点的左子节点或右子节点是否与root2根节点匹配</li>
-<li>匹配完成的条件为，root2所有节点均检索匹配成功，即递归中的值为null。</li>
-<li>需注意特殊输入情况的特殊处理：<ol>
-<li>root1为null或root2为null，return false</li>
-<li>匹配过程中，root1向下检索时到达叶节点的边界情况，若叶节点未匹配成功，return false</li>
-</ol>
-</li>
+<h2 id="思路方法"><a href="#思路方法" class="headerlink" title="思路方法"></a>思路方法</h2><ul>
+<li>求字符串的全排列，可以看做是，把字符串的第一位固定，求第一位以后的所有字符的全排列。而后方所有字符的全排列，又可以递归地视为它第一位固定（整串的第二位），又一次的以后所有字符的全排列，以此类推。</li>
+<li>此时就可以只关注对于第一位固定的情况处理。借助for循环，将第一个字符和它后面的字符都进行一次交换。交换完成后，再归位，继续进行后面位与第一位的交换。</li>
+<li>由于使用递归，当第一位和后面位的交换过程中，就继续往下递归。结束条件为到达字符串的末尾，并将字符串输出。</li>
 </ul>
-<h2 id="参考代码"><a href="#参考代码" class="headerlink" title="参考代码"></a>参考代码</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">HasSubtree</span><span class="params">(TreeNode root1,TreeNode root2)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//空指针特殊处理</span></span><br><span class="line">        <span class="keyword">if</span> (root1 == <span class="keyword">null</span> || root2 == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        <span class="comment">//利用递归对二叉树中节点与root2的节点进行匹配。当前节点不匹配则匹配左子树和右子树</span></span><br><span class="line">        <span class="keyword">return</span> subTree(root1,root2) || HasSubtree(root1.left,root2) || HasSubtree(root1.right,root2);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">subTree</span> <span class="params">(TreeNode root1, TreeNode root2)</span></span>&#123;</span><br><span class="line">        <span class="comment">//匹配成功条件：root2节点均匹配成功，到达叶节点</span></span><br><span class="line">        <span class="keyword">if</span> (root2 == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        <span class="keyword">if</span> (root1 == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">if</span> (root1.val == root2.val)</span><br><span class="line">            <span class="keyword">return</span> subTree(root1.left,root2.left) &amp;&amp; subTree(root1.right,root2.right);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="参考代码"><a href="#参考代码" class="headerlink" title="参考代码"></a>参考代码</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.Collections;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    ArrayList&lt;String&gt;res = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ArrayList&lt;String&gt; <span class="title">Permutation</span><span class="params">(String str)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(str == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">return</span> res;</span><br><span class="line">        PermutationHelper(str.toCharArray(), <span class="number">0</span>);</span><br><span class="line">        Collections.sort(res);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">PermutationHelper</span><span class="params">(<span class="keyword">char</span>[] str, <span class="keyword">int</span> i)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(i == str.length - <span class="number">1</span>)&#123;</span><br><span class="line">            res.add(String.valueOf(str));</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="comment">//对于每一次，利用变量j进行与第一位的交换，再向下一位的排列进行递归</span></span><br><span class="line">            <span class="comment">//再把第一位和第j位交换回来。</span></span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j = i; j &lt; str.length; j++)&#123;</span><br><span class="line">                <span class="keyword">if</span>(j!=i &amp;&amp; str[i] == str[j])</span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line">                swap(str, i, j);</span><br><span class="line">                PermutationHelper(str, i+<span class="number">1</span>);</span><br><span class="line">                swap(str, i, j);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">char</span>[] str, <span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">char</span> temp = str[i];</span><br><span class="line">        str[i] = str[j];</span><br><span class="line">        str[j] = temp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
          <!-- 添加版权声明 -->
     
@@ -238,7 +234,7 @@ var _hmt = _hmt || [];
       
       <br>
       <strong>本文链接：</strong>
-      <a href="https://passionzz.cn/2020/07/13/【剑指offer】树的子结构/" title="【剑指offer】树的子结构" target="_blank">https://passionzz.cn/2020/07/13/【剑指offer】树的子结构/</a>
+      <a href="https://passionzz.cn/2020/07/19/【剑指offer】字符串的排列/" title="【剑指offer】字符串的排列" target="_blank">https://passionzz.cn/2020/07/19/【剑指offer】字符串的排列/</a>
       <br>
       <strong>版权声明：</strong>
       本作品采用
@@ -266,11 +262,11 @@ var _hmt = _hmt || [];
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">二叉树</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法&数据结构</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法&数据结构</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">字符串</a>
         		</li>
       		
 		</ul>
@@ -326,7 +322,7 @@ var _hmt = _hmt || [];
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://passionzz.cn//2020/07/13/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E6%A0%91%E7%9A%84%E5%AD%90%E7%BB%93%E6%9E%84/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://passionzz.cn//2020/07/19/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E6%8E%92%E5%88%97/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -340,18 +336,9 @@ var _hmt = _hmt || [];
   
 <nav id="article-nav">
   
-    <a href="/2020/07/14/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E9%95%9C%E5%83%8F/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          【剑指offer】二叉树的镜像
-        
-      </div>
-    </a>
   
-  
-    <a href="/2020/07/13/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%8E%92%E5%BA%8F%E7%9A%84%E9%93%BE%E8%A1%A8/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">【剑指offer】合并两个排序的链表</div>
+    <a href="/2020/07/19/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E5%BA%8F%E5%88%97%E5%8C%96%E4%BA%8C%E5%8F%89%E6%A0%91/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">【剑指offer】序列化二叉树</div>
       <i class="icon-circle-right"></i>
     </a>
   
