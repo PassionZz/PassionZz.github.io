@@ -6,21 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://passionzz.cn">
-  <title>【剑指offer】剪绳子 | 翔仔年轻有力量</title>
+  <title>【剑指offer】数据流中的中位数 | 翔仔年轻有力量</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="题目描述&amp;ensp;&amp;ensp;给你一根长度为n的绳子，请把绳子剪成整数长的m段（m、n都是整数，n&gt;1并且m&gt;1，m&lt;&#x3D;n），每段绳子的长度记为k[1],…,k[m]。请问k[1]x…xk[m]可能的最大乘积是多少？例如，当绳子的长度是8时，我们把它剪成长度分别为2、3、3的三段，此时得到的最大乘积是18。  给定绳子的总长：int数据target 返回绳子各段乘积的最大数">
+  <meta name="description" content="题目描述   如何得到一个数据流中的中位数？如果从数据流中读出奇数个数值，那么中位数就是所有数值排序之后位于中间的数值。如果从数据流中读出偶数个数值，那么中位数就是所有数值排序之后中间两个数的平均值。我们使用Insert()方法读取数据流，使用GetMedian()方法获取当前读取数据的中位数。  给定数据流 要求即时的每次返回已读数据的中位数   牛客网OJ原题链接：数据流中的中位数">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【剑指offer】剪绳子">
-<meta property="og:url" content="https://passionzz.cn/2020/07/07/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E5%89%AA%E7%BB%B3%E5%AD%90/index.html">
+<meta property="og:title" content="【剑指offer】数据流中的中位数">
+<meta property="og:url" content="https://passionzz.cn/2020/07/21/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E6%95%B0%E6%8D%AE%E6%B5%81%E4%B8%AD%E7%9A%84%E4%B8%AD%E4%BD%8D%E6%95%B0/index.html">
 <meta property="og:site_name" content="翔仔年轻有力量">
-<meta property="og:description" content="题目描述&amp;ensp;&amp;ensp;给你一根长度为n的绳子，请把绳子剪成整数长的m段（m、n都是整数，n&gt;1并且m&gt;1，m&lt;&#x3D;n），每段绳子的长度记为k[1],…,k[m]。请问k[1]x…xk[m]可能的最大乘积是多少？例如，当绳子的长度是8时，我们把它剪成长度分别为2、3、3的三段，此时得到的最大乘积是18。  给定绳子的总长：int数据target 返回绳子各段乘积的最大数">
+<meta property="og:description" content="题目描述   如何得到一个数据流中的中位数？如果从数据流中读出奇数个数值，那么中位数就是所有数值排序之后位于中间的数值。如果从数据流中读出偶数个数值，那么中位数就是所有数值排序之后中间两个数的平均值。我们使用Insert()方法读取数据流，使用GetMedian()方法获取当前读取数据的中位数。  给定数据流 要求即时的每次返回已读数据的中位数   牛客网OJ原题链接：数据流中的中位数">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-07-07T07:41:31.000Z">
-<meta property="article:modified_time" content="2020-07-07T09:20:21.785Z">
+<meta property="article:published_time" content="2020-07-21T04:08:02.000Z">
+<meta property="article:modified_time" content="2020-07-21T04:30:50.325Z">
 <meta property="article:author" content="PassionZz&#x2F;ZYX">
 <meta property="article:tag" content="算法&amp;数据结构">
 <meta property="article:tag" content="剑指offer">
-<meta property="article:tag" content="动态规划">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="翔仔年轻有力量" type="application/atom+xml">
@@ -182,14 +181,14 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-【剑指offer】剪绳子" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-【剑指offer】数据流中的中位数" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      【剑指offer】剪绳子
+      【剑指offer】数据流中的中位数
     </h1>
   
 
@@ -200,32 +199,40 @@ var _hmt = _hmt || [];
 		  <i class="icon-smile icon"></i> 阅读数：<span id="busuanzi_value_page_pv"></span>次
 	</span>
 
-<a href="/2020/07/07/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E5%89%AA%E7%BB%B3%E5%AD%90/" class="archive-article-date">
-  	<time datetime="2020-07-07T07:41:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-07</time>
+<a href="/2020/07/21/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E6%95%B0%E6%8D%AE%E6%B5%81%E4%B8%AD%E7%9A%84%E4%B8%AD%E4%BD%8D%E6%95%B0/" class="archive-article-date">
+  	<time datetime="2020-07-21T04:08:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-21</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>&ensp;&ensp;给你一根长度为n的绳子，请把绳子剪成整数长的m段（m、n都是整数，n&gt;1并且m&gt;1，m&lt;=n），每段绳子的长度记为k[1],…,k[m]。请问k[1]x…xk[m]可能的最大乘积是多少？例如，当绳子的长度是8时，我们把它剪成长度分别为2、3、3的三段，此时得到的最大乘积是18。</p>
+        <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>   如何得到一个数据流中的中位数？如果从数据流中读出奇数个数值，那么中位数就是所有数值排序之后位于中间的数值。如果从数据流中读出偶数个数值，那么中位数就是所有数值排序之后中间两个数的平均值。我们使用Insert()方法读取数据流，使用GetMedian()方法获取当前读取数据的中位数。</p>
 <ol>
-<li>给定绳子的总长：int数据<code>target</code></li>
-<li>返回绳子各段乘积的最大数<a id="more"></a>
-<h2 id="思路方法"><a href="#思路方法" class="headerlink" title="思路方法"></a>思路方法</h2></li>
+<li>给定数据流</li>
+<li>要求即时的每次返回已读数据的中位数</li>
 </ol>
-<ul>
-<li>使用动态规划算法</li>
-<li>归纳来说，对于长度为n的绳子，最大乘积则为f(n) = f(i)*f(n-i).其中i为在绳子的第i段剪。而f(i)和f(n-i)又可以有它们自己的分段。从而形成多个子问题。其中也包括许多相同重叠的子问题。以上则是“从上往下”分析问题</li>
-<li>进而使用从下往上求解。即依次求出f(1),f(2),f(3),….,f(n)<ul>
-<li>绳子长度为2时，长度为1的两段相乘为1，f(2)=1</li>
-<li>绳子长度为3时，f(3)=1*2=2</li>
-<li>绳子长度为4时，有切成一段为1，一段为3的，也有切成两段都为2的。这种多个情况的，需要使用<code>for循环</code>逐个寻找最优解。</li>
-<li>以此类推。</li>
+<blockquote>
+<p>牛客网OJ原题链接：<a href="https://www.nowcoder.com/practice/9be0172896bd43948f8a32fb954e1be1" target="_blank" rel="noopener">数据流中的中位数</a></p>
+</blockquote>
+<a id="more"></a>
+
+<h2 id="思路方法"><a href="#思路方法" class="headerlink" title="思路方法"></a>思路方法</h2><ul>
+<li>首先在存储数据流输入数据的数据结构选取使用大顶堆和小顶堆，分别存在整个输入数据流的中位数左侧较小数和中位数右侧较大数</li>
+<li>如此一来，求数据流中位数，即可通过对左侧大顶堆的最大数和右侧小顶堆的最小数运算得出：<ul>
+<li>当数据数量是奇数时，左侧大顶堆的最大数即为中位数</li>
+<li>当数据数量是偶数时，左右两侧堆顶元素的平均值即为中位数</li>
+</ul>
+</li>
+<li>每次插入，遵从第偶数次插入右侧小顶堆，第奇数次插入左侧大顶堆。<ul>
+<li>当插入右侧小顶堆时，出现该数比左侧大顶堆中部分数小时，将它插入左侧大顶堆，并将左侧大顶堆顶元素移入右侧小顶堆</li>
+<li>当插入左侧大顶堆时，出现该数比右侧小顶堆中部分数大时，将它插入右侧小顶堆，并将右侧小顶堆顶元素移入左侧大顶堆</li>
 </ul>
 </li>
 </ul>
-<h2 id="参考代码"><a href="#参考代码" class="headerlink" title="参考代码"></a>参考代码</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">cutRope</span><span class="params">(<span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> [] dp = <span class="keyword">new</span> <span class="keyword">int</span>[target + <span class="number">1</span>];</span><br><span class="line">    <span class="keyword">if</span>(target &lt; <span class="number">2</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span>(target == <span class="number">2</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span>(target == <span class="number">3</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">2</span>;</span><br><span class="line">    <span class="comment">//此处1-3下标的取值属于当长度为1-3时的最优解，而非切割情况的乘积</span></span><br><span class="line">    <span class="comment">//即对于长度在1到3的绳子，不切割所获得的‘乘积’最大</span></span><br><span class="line">    dp[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">    dp[<span class="number">2</span>] = <span class="number">2</span>;</span><br><span class="line">    dp[<span class="number">3</span>] = <span class="number">3</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">4</span>; i &lt;= target; i++)</span><br><span class="line">        <span class="comment">//使用for循环逐个判断，找到最大的乘积</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt; i; j++)</span><br><span class="line">            dp[i] = Math.max(dp[i], dp[j]*dp[i-j]);</span><br><span class="line">    <span class="keyword">return</span> dp[target];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="参考代码"><a href="#参考代码" class="headerlink" title="参考代码"></a>参考代码</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.PriorityQueue;</span><br><span class="line"><span class="keyword">import</span> java.util.Comparator;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> cnt = <span class="number">0</span>;<span class="comment">//辅助变量记录数据流输入的总数</span></span><br><span class="line">    <span class="keyword">private</span> PriorityQueue&lt;Integer&gt; minHeap = <span class="keyword">new</span> PriorityQueue&lt;Integer&gt;();</span><br><span class="line">    <span class="keyword">private</span> PriorityQueue&lt;Integer&gt; maxHeap = <span class="keyword">new</span> PriorityQueue&lt;Integer&gt;(<span class="number">11</span>, <span class="keyword">new</span> Comparator&lt;Integer&gt;() &#123;</span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compare</span><span class="params">(Integer o1, Integer o2)</span> </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> o2 - o1;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Insert</span><span class="params">(Integer num)</span> </span>&#123;</span><br><span class="line">        cnt ++;</span><br><span class="line">        <span class="comment">//偶数次插入</span></span><br><span class="line">        <span class="keyword">if</span>( (cnt &amp;<span class="number">1</span>) == <span class="number">0</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(!maxHeap.isEmpty() &amp;&amp; num &lt; maxHeap.peek())&#123;</span><br><span class="line">                maxHeap.offer(num);</span><br><span class="line">                num = maxHeap.poll();</span><br><span class="line">            &#125;</span><br><span class="line">                minHeap.offer(num);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//奇数次插入</span></span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">if</span>(!minHeap.isEmpty() &amp;&amp; num &gt; minHeap.peek())&#123;</span><br><span class="line">                minHeap.offer(num);</span><br><span class="line">                num = minHeap.poll();</span><br><span class="line">            &#125;</span><br><span class="line">                maxHeap.offer(num);</span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Double <span class="title">GetMedian</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">double</span> res = <span class="number">0</span>;</span><br><span class="line">        <span class="comment">// 奇数</span></span><br><span class="line">        <span class="keyword">if</span> ((cnt &amp; <span class="number">1</span>) == <span class="number">1</span>) &#123;</span><br><span class="line">            res = maxHeap.peek();</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            res = ( maxHeap.peek() +  minHeap.peek()) / <span class="number">2.0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
       
          <!-- 添加版权声明 -->
     
@@ -237,7 +244,7 @@ var _hmt = _hmt || [];
       
       <br>
       <strong>本文链接：</strong>
-      <a href="https://passionzz.cn/2020/07/07/【剑指offer】剪绳子/" title="【剑指offer】剪绳子" target="_blank">https://passionzz.cn/2020/07/07/【剑指offer】剪绳子/</a>
+      <a href="https://passionzz.cn/2020/07/21/【剑指offer】数据流中的中位数/" title="【剑指offer】数据流中的中位数" target="_blank">https://passionzz.cn/2020/07/21/【剑指offer】数据流中的中位数/</a>
       <br>
       <strong>版权声明：</strong>
       本作品采用
@@ -266,10 +273,6 @@ var _hmt = _hmt || [];
       		 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">剑指offer</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">动态规划</a>
         		</li>
       		
 		</ul>
@@ -325,7 +328,7 @@ var _hmt = _hmt || [];
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://passionzz.cn//2020/07/07/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E5%89%AA%E7%BB%B3%E5%AD%90/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://passionzz.cn//2020/07/21/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E6%95%B0%E6%8D%AE%E6%B5%81%E4%B8%AD%E7%9A%84%E4%B8%AD%E4%BD%8D%E6%95%B0/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -339,18 +342,9 @@ var _hmt = _hmt || [];
   
 <nav id="article-nav">
   
-    <a href="/2020/07/08/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E4%BA%8C%E8%BF%9B%E5%88%B6%E4%B8%AD1%E7%9A%84%E4%B8%AA%E6%95%B0/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          【剑指offer】二进制中1的个数
-        
-      </div>
-    </a>
   
-  
-    <a href="/2020/07/07/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E6%9C%BA%E5%99%A8%E4%BA%BA%E7%9A%84%E8%BF%90%E5%8A%A8%E8%8C%83%E5%9B%B4/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">【剑指offer】机器人的运动范围</div>
+    <a href="/2020/07/20/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E6%95%B0%E7%BB%84%E4%B8%AD%E5%87%BA%E7%8E%B0%E6%AC%A1%E6%95%B0%E8%B6%85%E8%BF%87%E4%B8%80%E5%8D%8A%E7%9A%84%E6%95%B0%E5%AD%97/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">【剑指offer】数组中出现次数超过一半的数字</div>
       <i class="icon-circle-right"></i>
     </a>
   
