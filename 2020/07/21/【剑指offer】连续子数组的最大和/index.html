@@ -6,22 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://passionzz.cn">
-  <title>【剑指offer】序列化二叉树 | 翔仔年轻有力量</title>
+  <title>【剑指offer】连续子数组的最大和 | 翔仔年轻有力量</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="题目描述&amp;ensp;&amp;ensp;请实现两个函数，分别用来序列化和反序列化二叉树 二叉树的序列化是指：把一棵二叉树按照某种遍历方式的结果以某种格式保存为字符串，从而使得内存中建立起来的二叉树可以持久保存。序列化可以基于先序、中序、后序、层序的二叉树遍历方式来进行修改，序列化的结果是一个字符串，序列化时通过 某种符号表示空节点（#），以 ！ 表示一个结点值的结束（value!）。 二叉树的反序列化是指">
+  <meta name="description" content="题目描述  在古老的一维模式识别中,常常需要计算连续子向量的最大和,当向量全为正数的时候,问题很好解决。但是,如果向量中包含负数,是否应该包含某个负数,并期望旁边的正数会弥补它呢？例如:{6,-3,-2,7,-15,1,2,2},连续子向量的最大和为8(从第0个开始,到第3个为止)。给一个数组，返回它的最大连续子序列的和。  给定一个整型数组，数组中包含正数，负数 输出该数组的最大上升子序列之和">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【剑指offer】序列化二叉树">
-<meta property="og:url" content="https://passionzz.cn/2020/07/19/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E5%BA%8F%E5%88%97%E5%8C%96%E4%BA%8C%E5%8F%89%E6%A0%91/index.html">
+<meta property="og:title" content="【剑指offer】连续子数组的最大和">
+<meta property="og:url" content="https://passionzz.cn/2020/07/21/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E8%BF%9E%E7%BB%AD%E5%AD%90%E6%95%B0%E7%BB%84%E7%9A%84%E6%9C%80%E5%A4%A7%E5%92%8C/index.html">
 <meta property="og:site_name" content="翔仔年轻有力量">
-<meta property="og:description" content="题目描述&amp;ensp;&amp;ensp;请实现两个函数，分别用来序列化和反序列化二叉树 二叉树的序列化是指：把一棵二叉树按照某种遍历方式的结果以某种格式保存为字符串，从而使得内存中建立起来的二叉树可以持久保存。序列化可以基于先序、中序、后序、层序的二叉树遍历方式来进行修改，序列化的结果是一个字符串，序列化时通过 某种符号表示空节点（#），以 ！ 表示一个结点值的结束（value!）。 二叉树的反序列化是指">
+<meta property="og:description" content="题目描述  在古老的一维模式识别中,常常需要计算连续子向量的最大和,当向量全为正数的时候,问题很好解决。但是,如果向量中包含负数,是否应该包含某个负数,并期望旁边的正数会弥补它呢？例如:{6,-3,-2,7,-15,1,2,2},连续子向量的最大和为8(从第0个开始,到第3个为止)。给一个数组，返回它的最大连续子序列的和。  给定一个整型数组，数组中包含正数，负数 输出该数组的最大上升子序列之和">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-07-19T08:07:55.000Z">
-<meta property="article:modified_time" content="2020-07-20T04:13:24.864Z">
+<meta property="og:image" content="https://passionzz.cn/2020/07/21/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E8%BF%9E%E7%BB%AD%E5%AD%90%E6%95%B0%E7%BB%84%E7%9A%84%E6%9C%80%E5%A4%A7%E5%92%8C/1.png">
+<meta property="article:published_time" content="2020-07-21T06:57:12.000Z">
+<meta property="article:modified_time" content="2020-07-21T07:19:30.426Z">
 <meta property="article:author" content="PassionZz&#x2F;ZYX">
 <meta property="article:tag" content="剑指offer">
-<meta property="article:tag" content="二叉树">
 <meta property="article:tag" content="算法&amp;数据结构">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://passionzz.cn/2020/07/21/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E8%BF%9E%E7%BB%AD%E5%AD%90%E6%95%B0%E7%BB%84%E7%9A%84%E6%9C%80%E5%A4%A7%E5%92%8C/1.png">
   
     <link rel="alternative" href="/atom.xml" title="翔仔年轻有力量" type="application/atom+xml">
   
@@ -182,14 +183,14 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-【剑指offer】序列化二叉树" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-【剑指offer】连续子数组的最大和" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      【剑指offer】序列化二叉树
+      【剑指offer】连续子数组的最大和
     </h1>
   
 
@@ -200,37 +201,43 @@ var _hmt = _hmt || [];
 		  <i class="icon-smile icon"></i> 阅读数：<span id="busuanzi_value_page_pv"></span>次
 	</span>
 
-<a href="/2020/07/19/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E5%BA%8F%E5%88%97%E5%8C%96%E4%BA%8C%E5%8F%89%E6%A0%91/" class="archive-article-date">
-  	<time datetime="2020-07-19T08:07:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-19</time>
+<a href="/2020/07/21/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E8%BF%9E%E7%BB%AD%E5%AD%90%E6%95%B0%E7%BB%84%E7%9A%84%E6%9C%80%E5%A4%A7%E5%92%8C/" class="archive-article-date">
+  	<time datetime="2020-07-21T06:57:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-21</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>&ensp;&ensp;请实现两个函数，分别用来序列化和反序列化二叉树</p>
-<p>二叉树的序列化是指：把一棵二叉树按照某种遍历方式的结果以某种格式保存为字符串，从而使得内存中建立起来的二叉树可以持久保存。序列化可以基于先序、中序、后序、层序的二叉树遍历方式来进行修改，序列化的结果是一个字符串，序列化时通过 某种符号表示空节点（#），以 ！ 表示一个结点值的结束（value!）。</p>
-<p>二叉树的反序列化是指：根据某种遍历顺序得到的序列化字符串结果str，重构二叉树。</p>
-<p>例如，我们可以把一个只有根节点为1的二叉树序列化为”1,”，然后通过自己的函数来解析回这个二叉树</p>
+        <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>  在古老的一维模式识别中,常常需要计算连续子向量的最大和,当向量全为正数的时候,问题很好解决。但是,如果向量中包含负数,是否应该包含某个负数,并期望旁边的正数会弥补它呢？例如:{6,-3,-2,7,-15,1,2,2},连续子向量的最大和为8(从第0个开始,到第3个为止)。给一个数组，返回它的最大连续子序列的和。</p>
 <ol>
-<li>给定二叉树</li>
-<li>定义两个函数将二叉树输出序列化，同时借助序列再生成二叉树</li>
-<li>二叉树节点定义如下：<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TreeNode</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> val = <span class="number">0</span>;</span><br><span class="line">    TreeNode left = <span class="keyword">null</span>;</span><br><span class="line">    TreeNode right = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">TreeNode</span><span class="params">(<span class="keyword">int</span> val)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.val = val;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<li>给定一个整型数组，数组中包含正数，负数</li>
+<li>输出该数组的最大上升子序列之和</li>
+</ol>
 <blockquote>
-<p>牛客网OJ原题链接：<a href="https://www.nowcoder.com/practice/cf7e25aa97c04cc1a68c8f040e71fb84" target="_blank" rel="noopener">序列化二叉树</a></p>
+<p>牛客网OJ原题链接：<a href="https://www.nowcoder.com/practice/459bd355da1549fa8a49e350bf3df484" target="_blank" rel="noopener">连续子数组的最大和</a></p>
 </blockquote>
 <a id="more"></a>
-<h2 id="思路方法"><a href="#思路方法" class="headerlink" title="思路方法"></a>思路方法</h2></li>
+
+<h2 id="思路方法"><a href="#思路方法" class="headerlink" title="思路方法"></a>思路方法</h2><ul>
+<li><p>最大上升子序列问题，可以看作是动态规划问题。将大问题逐渐分解为若干个小问题。对数组，进行从左到右的判断及记录，用两个变量存储，一个为遍历过程的实时和<code>indexSum</code>，另一个是遍历过程的比较出的最大和<code>maxSum</code>。</p>
+</li>
+<li><p>公式如下：</p>
+<p><img src="/2020/07/21/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E8%BF%9E%E7%BB%AD%E5%AD%90%E6%95%B0%E7%BB%84%E7%9A%84%E6%9C%80%E5%A4%A7%E5%92%8C/1.png" alt="1"></p>
+</li>
+<li><p>在本题中，由于数组中存在负数，所以在从左到右获取的过程中，有两种情况</p>
+<ol>
+<li>当前和小于0时，如果继续加下一个数后只会更小，此时，将当前和更新为下一个数本身。</li>
+<li>当前和大于0，则与下一个数相加并更新为当前和。</li>
 </ol>
-<ul>
-<li>生成二叉树的序列化，可以利用递归，将节点值追加到StringBuilder对象上，最后利用StringBuilder对象的toString方法生成并返回String字符串。其中当遍历null值，在StringBuilder对象后追加”#,”以区分。</li>
-<li>二叉树的反序列化：<ul>
-<li>借助额外存储空间<strong>队列</strong>辅助递归：首先将传入的字符串利用split方法按照”,”间隔进行分割并存入String数组中。使用for循环存入队列中，（此处通过队列来完成二叉树节点之间递归链接的过程，避免出现断连）</li>
-<li>不使用队列: 定义辅助变量<code>index</code>定位操作节点在字符串分解为String数组后的位置，每次递归函数<code>index</code>自增1.每次递归时判断String数组中对应节点值是否为”#”，是则节点为null，否则节点赋值，并进一步对左右节点递归。<h2 id="参考代码"><a href="#参考代码" class="headerlink" title="参考代码"></a>参考代码</h2><h3 id="一、使用队列辅助"><a href="#一、使用队列辅助" class="headerlink" title="一、使用队列辅助"></a>一、使用队列辅助</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Queue;</span><br><span class="line"><span class="keyword">import</span> java.util.LinkedList;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function">String <span class="title">Serialize</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"#,"</span>;</span><br><span class="line">        StringBuffer treeList = <span class="keyword">new</span> StringBuffer(root.val+<span class="string">","</span>);</span><br><span class="line">        treeList.append(Serialize(root.left));</span><br><span class="line">        treeList.append(Serialize(root.right));</span><br><span class="line">        <span class="keyword">return</span> treeList.toString();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">TreeNode <span class="title">Deserialize</span><span class="params">(String str)</span> </span>&#123;</span><br><span class="line">        String [] tree = str.split(<span class="string">","</span>);</span><br><span class="line">        Queue &lt;String&gt; backtoTree = <span class="keyword">new</span> LinkedList &lt;String&gt;();</span><br><span class="line">        <span class="comment">//依次存入队列</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt; tree.length; i++)</span><br><span class="line">            backtoTree.offer(tree[i]);</span><br><span class="line">        <span class="keyword">return</span> pre(backtoTree);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">TreeNode <span class="title">pre</span><span class="params">(Queue&lt;String&gt; queue)</span></span>&#123;</span><br><span class="line">        </span><br><span class="line">        String val = queue.poll();</span><br><span class="line">        <span class="keyword">if</span>(val.equals(<span class="string">"#"</span>))</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        <span class="comment">//根节点确认，parseInt方法将String转换为整数型</span></span><br><span class="line">        TreeNode node = <span class="keyword">new</span> TreeNode(Integer.parseInt(val));</span><br><span class="line">        <span class="comment">//先重组左子树，再重组右子树</span></span><br><span class="line">        node.left = pre(queue);</span><br><span class="line">        node.right = pre(queue);</span><br><span class="line">        <span class="keyword">return</span> node;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="二、使用变量index辅助定位，无需额外存储空间"><a href="#二、使用变量index辅助定位，无需额外存储空间" class="headerlink" title="二、使用变量index辅助定位，无需额外存储空间"></a>二、使用变量index辅助定位，无需额外存储空间</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Queue;</span><br><span class="line"><span class="keyword">import</span> java.util.LinkedList;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> index = -<span class="number">1</span>;</span><br><span class="line">    <span class="function">String <span class="title">Serialize</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"#,"</span>;</span><br><span class="line">        StringBuffer treeList = <span class="keyword">new</span> StringBuffer(root.val+<span class="string">","</span>);</span><br><span class="line">        treeList.append(Serialize(root.left));</span><br><span class="line">        treeList.append(Serialize(root.right));</span><br><span class="line">        <span class="keyword">return</span> treeList.toString();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">TreeNode <span class="title">Deserialize</span><span class="params">(String str)</span> </span>&#123;</span><br><span class="line">        String[] s = str.split(<span class="string">","</span>);<span class="comment">//以“，”为间隔，将字符串分割为String数组</span></span><br><span class="line">        index++;<span class="comment">//索引每次加一</span></span><br><span class="line">        <span class="keyword">int</span> len = s.length;</span><br><span class="line">        <span class="comment">//递归的边界条件</span></span><br><span class="line">        <span class="keyword">if</span> (index &gt; len) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//初始化为null，若为"#"，可直接返回</span></span><br><span class="line">        TreeNode treeNode = <span class="keyword">null</span>;</span><br><span class="line">        <span class="comment">//节点赋值，并进一步对左右节点递归</span></span><br><span class="line">        <span class="keyword">if</span> (!s[index].equals(<span class="string">"#"</span>)) &#123;</span><br><span class="line">            treeNode = <span class="keyword">new</span> TreeNode(Integer.parseInt(s[index]));</span><br><span class="line">            treeNode.left = Deserialize(str);</span><br><span class="line">            treeNode.right = Deserialize(str);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> treeNode;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></li>
-</ul>
+</li>
+<li><p>在每一次遍历的时候，都将当前和和最大和比较判断，对最大值进行更新。</p>
 </li>
 </ul>
+<h2 id="参考代码"><a href="#参考代码" class="headerlink" title="参考代码"></a>参考代码</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">FindGreatestSumOfSubArray</span><span class="params">(<span class="keyword">int</span>[] array)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(array == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> indexSum = array[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">int</span> maxSum = indexSum;</span><br><span class="line">        <span class="comment">//从数组的第二个数开始比较</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i &lt; array.length; i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(indexSum &lt;= <span class="number">0</span>)</span><br><span class="line">                indexSum = array[i];</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                indexSum += array[i];</span><br><span class="line">            <span class="keyword">if</span>(maxSum &lt; indexSum)</span><br><span class="line">                maxSum = indexSum;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> maxSum;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
 
       
          <!-- 添加版权声明 -->
@@ -243,7 +250,7 @@ var _hmt = _hmt || [];
       
       <br>
       <strong>本文链接：</strong>
-      <a href="https://passionzz.cn/2020/07/19/【剑指offer】序列化二叉树/" title="【剑指offer】序列化二叉树" target="_blank">https://passionzz.cn/2020/07/19/【剑指offer】序列化二叉树/</a>
+      <a href="https://passionzz.cn/2020/07/21/【剑指offer】连续子数组的最大和/" title="【剑指offer】连续子数组的最大和" target="_blank">https://passionzz.cn/2020/07/21/【剑指offer】连续子数组的最大和/</a>
       <br>
       <strong>版权声明：</strong>
       本作品采用
@@ -268,10 +275,6 @@ var _hmt = _hmt || [];
 			 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">剑指offer</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">二叉树</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
@@ -331,7 +334,7 @@ var _hmt = _hmt || [];
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://passionzz.cn//2020/07/19/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E5%BA%8F%E5%88%97%E5%8C%96%E4%BA%8C%E5%8F%89%E6%A0%91/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://passionzz.cn//2020/07/21/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E8%BF%9E%E7%BB%AD%E5%AD%90%E6%95%B0%E7%BB%84%E7%9A%84%E6%9C%80%E5%A4%A7%E5%92%8C/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -345,18 +348,9 @@ var _hmt = _hmt || [];
   
 <nav id="article-nav">
   
-    <a href="/2020/07/19/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E6%8E%92%E5%88%97/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          【剑指offer】字符串的排列
-        
-      </div>
-    </a>
   
-  
-    <a href="/2020/07/18/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E4%B8%8E%E5%8F%8C%E5%90%91%E9%93%BE%E8%A1%A8/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">【剑指offer】二叉搜索树与双向链表</div>
+    <a href="/2020/07/21/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E6%95%B0%E6%8D%AE%E6%B5%81%E4%B8%AD%E7%9A%84%E4%B8%AD%E4%BD%8D%E6%95%B0/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">【剑指offer】数据流中的中位数</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -383,7 +377,7 @@ var _hmt = _hmt || [];
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#题目描述"><span class="toc-number">1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#思路方法"><span class="toc-number">2.</span> <span class="toc-text">思路方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考代码"><span class="toc-number">3.</span> <span class="toc-text">参考代码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#一、使用队列辅助"><span class="toc-number">3.1.</span> <span class="toc-text">一、使用队列辅助</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、使用变量index辅助定位，无需额外存储空间"><span class="toc-number">3.2.</span> <span class="toc-text">二、使用变量index辅助定位，无需额外存储空间</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#题目描述"><span class="toc-number">1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#思路方法"><span class="toc-number">2.</span> <span class="toc-text">思路方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考代码"><span class="toc-number">3.</span> <span class="toc-text">参考代码</span></a></li></ol>
                     </div>
                 </span>
             </div>
