@@ -6,22 +6,25 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://passionzz.cn">
-  <title>【剑指offer】栈的压入、弹出序列 | 翔仔年轻有力量</title>
+  <title>【JVM】垃圾回收机制 | 翔仔年轻有力量</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="题目描述&amp;ensp;&amp;ensp;输入两个整数序列，第一个序列表示栈的压入顺序，请判断第二个序列是否可能为该栈的弹出顺序。假设压入栈的所有数字均不相等。例如序列1,2,3,4,5是某栈的压入顺序，序列4,5,3,2,1是该压栈序列对应的一个弹出序列，但4,3,5,1,2就不可能是该压栈序列的弹出序列。（注意：这两个序列的长度是相等的）  给定两个序列，序列1为栈的压入顺序，序列2为栈的弹出顺序 要求">
+  <meta name="description" content="引入所谓垃圾回收，围绕着三个问题：  如何判断对象已死？（怎么样算垃圾？） 垃圾收集算法（如何回收垃圾） 垃圾收集器（回收垃圾用的工具）">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【剑指offer】栈的压入、弹出序列">
-<meta property="og:url" content="https://passionzz.cn/2020/07/16/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E6%A0%88%E7%9A%84%E5%8E%8B%E5%85%A5%E3%80%81%E5%BC%B9%E5%87%BA%E5%BA%8F%E5%88%97/index.html">
+<meta property="og:title" content="【JVM】垃圾回收机制">
+<meta property="og:url" content="https://passionzz.cn/2020/08/13/%E3%80%90JVM%E3%80%91%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/index.html">
 <meta property="og:site_name" content="翔仔年轻有力量">
-<meta property="og:description" content="题目描述&amp;ensp;&amp;ensp;输入两个整数序列，第一个序列表示栈的压入顺序，请判断第二个序列是否可能为该栈的弹出顺序。假设压入栈的所有数字均不相等。例如序列1,2,3,4,5是某栈的压入顺序，序列4,5,3,2,1是该压栈序列对应的一个弹出序列，但4,3,5,1,2就不可能是该压栈序列的弹出序列。（注意：这两个序列的长度是相等的）  给定两个序列，序列1为栈的压入顺序，序列2为栈的弹出顺序 要求">
+<meta property="og:description" content="引入所谓垃圾回收，围绕着三个问题：  如何判断对象已死？（怎么样算垃圾？） 垃圾收集算法（如何回收垃圾） 垃圾收集器（回收垃圾用的工具）">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-07-16T09:17:29.000Z">
-<meta property="article:modified_time" content="2020-07-18T06:51:38.471Z">
+<meta property="og:image" content="https://passionzz.cn/2020/08/13/%E3%80%90JVM%E3%80%91%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/%E3%80%90JVM%E3%80%91%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6%5C1.png">
+<meta property="og:image" content="https://passionzz.cn/2020/08/13/%E3%80%90JVM%E3%80%91%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/%E3%80%90JVM%E3%80%91%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6%5C2.png">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/6/28/172f88e292405e6f?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/6/28/172f890f1baad386?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+<meta property="article:published_time" content="2020-08-13T08:09:03.000Z">
+<meta property="article:modified_time" content="2020-08-13T16:34:38.100Z">
 <meta property="article:author" content="PassionZz&#x2F;ZYX">
-<meta property="article:tag" content="算法&amp;数据结构">
-<meta property="article:tag" content="剑指offer">
-<meta property="article:tag" content="栈">
+<meta property="article:tag" content="JVM">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://passionzz.cn/2020/08/13/%E3%80%90JVM%E3%80%91%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/%E3%80%90JVM%E3%80%91%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6%5C1.png">
   
     <link rel="alternative" href="/atom.xml" title="翔仔年轻有力量" type="application/atom+xml">
   
@@ -182,14 +185,14 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-【剑指offer】栈的压入、弹出序列" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-【JVM】垃圾回收机制" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      【剑指offer】栈的压入、弹出序列
+      【JVM】垃圾回收机制
     </h1>
   
 
@@ -200,30 +203,150 @@ var _hmt = _hmt || [];
 		  <i class="icon-smile icon"></i> 阅读数：<span id="busuanzi_value_page_pv"></span>次
 	</span>
 
-<a href="/2020/07/16/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E6%A0%88%E7%9A%84%E5%8E%8B%E5%85%A5%E3%80%81%E5%BC%B9%E5%87%BA%E5%BA%8F%E5%88%97/" class="archive-article-date">
-  	<time datetime="2020-07-16T09:17:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-16</time>
+<a href="/2020/08/13/%E3%80%90JVM%E3%80%91%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/" class="archive-article-date">
+  	<time datetime="2020-08-13T08:09:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-13</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>&ensp;&ensp;输入两个整数序列，第一个序列表示栈的压入顺序，请判断第二个序列是否可能为该栈的弹出顺序。假设压入栈的所有数字均不相等。例如序列1,2,3,4,5是某栈的压入顺序，序列4,5,3,2,1是该压栈序列对应的一个弹出序列，但4,3,5,1,2就不可能是该压栈序列的弹出序列。（注意：这两个序列的长度是相等的）</p>
-<ol>
-<li>给定两个序列，序列1为栈的压入顺序，序列2为栈的弹出顺序</li>
-<li>要求定义函数判断序列2是否符合栈的弹出规则<blockquote>
-<p>牛客网OJ原题链接：<a href="https://www.nowcoder.com/practice/d77d11405cc7470d82554cb392585106?tpId=13" target="_blank" rel="noopener">栈的压入、弹出序列</a></p>
-</blockquote>
-<a id="more"></a>
-<h2 id="思路方法"><a href="#思路方法" class="headerlink" title="思路方法"></a>思路方法</h2></li>
-</ol>
+        <h2 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h2><p>所谓垃圾回收，围绕着三个问题：</p>
 <ul>
-<li>简单来说，需要对每次压入栈操作后判断下一步操作时对栈进行压入，还是弹出操作。</li>
-<li>判断的依据为：此时栈顶元素是否与给定的弹出序列相等，如相等则弹出，否则继续压入数据。</li>
-<li>其中，使用循环，弹出一次后继续判断是否相等，相等则继续弹出，否则退出循环，压入数据。</li>
-<li>当所有数据均压入栈中，但没有与弹出序列匹配的情况，则代表序列2不符合弹出顺序。（此处可以借助栈是否为空进行判断，栈为空代表所有数据均匹配则满足。否则栈中还有数据，不匹配）</li>
+<li>如何判断对象已死？（怎么样算垃圾？）</li>
+<li>垃圾收集算法（如何回收垃圾）</li>
+<li>垃圾收集器（回收垃圾用的工具）</li>
 </ul>
-<h2 id="参考代码"><a href="#参考代码" class="headerlink" title="参考代码"></a>参考代码</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.Stack;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">IsPopOrder</span><span class="params">(<span class="keyword">int</span> [] pushA,<span class="keyword">int</span> [] popA)</span> </span>&#123;</span><br><span class="line">      Stack&lt;Integer&gt; supStack = <span class="keyword">new</span> Stack&lt;&gt;();</span><br><span class="line">      <span class="keyword">if</span>(pushA.length != popA.length || pushA.length == <span class="number">0</span> || popA.length == <span class="number">0</span>)</span><br><span class="line">          <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">      <span class="keyword">int</span> index = <span class="number">0</span>;</span><br><span class="line">      <span class="comment">//依次对栈进行压入</span></span><br><span class="line">      <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; pushA.length; i++)&#123;</span><br><span class="line">            supStack.push(pushA[i]);</span><br><span class="line">            <span class="comment">//循环令栈顶元素及序列2进行匹配，相等则弹出栈，并把序列2的定位后移一位</span></span><br><span class="line">            <span class="keyword">while</span>(!supStack.empty() &amp;&amp; supStack.peek() == popA[index])&#123;</span><br><span class="line">                supStack.pop();</span><br><span class="line">                index++;</span><br><span class="line">            &#125;</span><br><span class="line">      &#125;</span><br><span class="line">        <span class="keyword">return</span> supStack.empty();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+
+<h2 id="哪些内存需要回收"><a href="#哪些内存需要回收" class="headerlink" title="哪些内存需要回收"></a>哪些内存需要回收</h2><p>首先，在JVM的内存区域中程序计数器，虚拟机栈，本地方法栈作为线程私有的内存区域，随着线程而生成和毁灭，不需要考虑回收。由此，GC机制主要考虑的是方法区和Java堆这部分堆内存分区。</p>
+<p>确认区域后，需要确认的是该区域的对象实例，哪些需要清除，即哪些对象已经使用完毕，不会再被使用。</p>
+<h4 id="判断对象是否”已死”（对应堆内存回收）"><a href="#判断对象是否”已死”（对应堆内存回收）" class="headerlink" title="判断对象是否”已死”（对应堆内存回收）"></a>判断对象是否”已死”（对应堆内存回收）</h4><ul>
+<li><h6 id="1-引用计数法"><a href="#1-引用计数法" class="headerlink" title="1. 引用计数法"></a>1. 引用计数法</h6><p>给对象中添加一个引用计数器，每当有一个地方引用它，计数器就加 1；当引用失效，计数器就减 1；任何时候计数器为 0 的对象就是不可能再被使用的。</p>
+<p><strong>这个方法实现简单，效率高，但是目前主流的虚拟机中并没有选择这个算法来管理内存，其最主要的原因是它很难解决对象之间相互循环引用的问题。</strong> </p>
+</li>
+<li><h6 id="2-可达性分析算法"><a href="#2-可达性分析算法" class="headerlink" title="2. 可达性分析算法"></a>2. 可达性分析算法</h6><p>基本思想就是通过一系列的称为 <strong>“GC Roots”</strong> 的对象作为起点，从这些节点开始向下搜索，节点所走过的路径称为引用链，当一个对象到 GC Roots 没有任何引用链相连的话，则证明此对象是不可用的。</p>
+<p>可作为GC Roots的对象包括下面几种:</p>
+<ul>
+<li>虚拟机栈(栈帧中的本地变量表)中引用的对象</li>
+<li>本地方法栈(Native方法)中引用的对象</li>
+<li>方法区中类静态属性引用的对象</li>
+<li>方法区中常量引用的对象</li>
+</ul>
+<p>当前主流的商用程序语言的内存管理子系统，都是通过可达性分析算法来判断对象是否存活的。</p>
+</li>
+<li><h6 id="3-不可达对象并非完全死亡"><a href="#3-不可达对象并非完全死亡" class="headerlink" title="3.  不可达对象并非完全死亡"></a>3.  不可达对象并非完全死亡</h6><p>不可达的对象至少要经历两次标记过程，才真正宣告死亡。不可达的对象被第一次标记并且进行一次筛选，筛选的条件是此对象是否有必要执行 finalize 方法。当对象没有覆盖 finalize 方法，或 finalize 方法已经被虚拟机调用过时，虚拟机将这两种情况视为没有必要执行。被判定为需要执行的对象将会被放在一个队列中进行第二次标记，除非这个对象与引用链上的任何一个对象建立关联，否则就会被真的回收。</p>
+</li>
+</ul>
+<h4 id="常量及类的回收判定（对应方法区回收）"><a href="#常量及类的回收判定（对应方法区回收）" class="headerlink" title="常量及类的回收判定（对应方法区回收）"></a>常量及类的回收判定（对应方法区回收）</h4><p>方法区的垃圾收集主要回收两个部分内容：废弃的常量和不再使用的类型</p>
+<ul>
+<li><h6 id="如何判断一个常量是废弃常量"><a href="#如何判断一个常量是废弃常量" class="headerlink" title="如何判断一个常量是废弃常量"></a>如何判断一个常量是废弃常量</h6><p>假如在常量池中存在字符串 “abc”，如果当前没有任何 String 对象引用该字符串常量的话，就说明常量 “abc” 就是废弃常量，如果这时发生内存回收的话而且有必要的话，”abc” 就会被系统清理出常量池。<strong>即该常量不再被引用。</strong></p>
+</li>
+<li><h6 id="如何判断一个类不再使用"><a href="#如何判断一个类不再使用" class="headerlink" title="如何判断一个类不再使用"></a>如何判断一个类不再使用</h6><p>需要同时满足下面 3 个条件才能算是 <strong>“无用的类”</strong> ：</p>
+<ul>
+<li>该类所有的实例都已经被回收，也就是 Java 堆中不存在该类的任何实例。</li>
+<li>加载该类的 ClassLoader 已经被回收。</li>
+<li>该类对应的 java.lang.Class 对象没有在任何地方被引用，无法在任何地方通过反射访问该类的方法。</li>
+</ul>
+<p><strong>注：无用类并非必须回收，是否回收根据HotSpot虚拟机中的参数来控制</strong></p>
+</li>
+</ul>
+<h2 id="垃圾回收算法"><a href="#垃圾回收算法" class="headerlink" title="垃圾回收算法"></a>垃圾回收算法</h2><p>分代收集理论：当前虚拟机的垃圾收集都采用分代收集理论，根据对象存活周期的不同将内存分为几块。一般将 java 堆分为新生代和老年代，这样我们就可以根据各个年代的特点选择合适的垃圾收集算法。<strong>比如在新生代中，每次收集都会有大量对象死去，所以可以选择复制算法，只需要付出少量对象的复制成本就可以完成每次垃圾收集。而老年代的对象存活几率是比较高的，而且没有额外的空间对它进行分配担保，所以我们必须选择“标记-清除”或“标记-整理”算法进行垃圾收集。</strong></p>
+<ul>
+<li><h5 id="标记-清除算法"><a href="#标记-清除算法" class="headerlink" title="标记-清除算法"></a>标记-清除算法</h5><p>该算法分为“标记”和“清除”阶段：首先标记出所有不需要回收的对象，在标记完成后统一回收掉所有没有被标记的对象。它是最基础的收集算法，后续的算法都是对其不足进行改进得到。这种垃圾收集算法会带来两个明显的问题：1. 执行效率不稳定-当有大量对象待回收时需要进行大量的标记清除操作，导致效率降低。2. 空间产生不连续内存碎片，过于碎片化会导致无法为大对象分配内存而进行多一次回收。</p>
+</li>
+<li><h5 id="标记-复制算法"><a href="#标记-复制算法" class="headerlink" title="标记-复制算法"></a>标记-复制算法</h5><p>它可以将内存分为大小相同的两块，每次使用其中的一块。当这一块的内存使用完后，就将还存活的对象复制到另一块去，然后再把使用的空间一次清理掉。这样就使每次的内存回收都是对内存区间的一半进行回收。</p>
+<p>在HotSpot中采取的Appel式回收具体做法为将新生代分为一块较大的Eden区和两个较小的Survivor区，每次分配内存使用Eden和一块Survivor，然后整体清除Eden和使用的Survivor并将存活对象存入另一个survivor区将其利用于下一阶段的内存分配。<strong>Eden和Survivor的比例为2:1:1。</strong></p>
+<p>另外，若存活的对象，全空的Survivor不足以存放时，通过分配担保机制进入老年代内存。</p>
+</li>
+<li><h5 id="标记-整理算法"><a href="#标记-整理算法" class="headerlink" title="标记-整理算法"></a>标记-整理算法</h5><p>根据老年代的特点提出的一种标记算法，标记过程仍然与“标记-清除”算法一样，但后续步骤不是直接对可回收对象回收，而是让所有存活的对象向一端移动，然后直接清理掉端边界以外的内存。</p>
+</li>
+</ul>
+<h2 id="垃圾收集器"><a href="#垃圾收集器" class="headerlink" title="垃圾收集器"></a>垃圾收集器</h2><p><strong>如果说收集算法是内存回收的方法论，那么垃圾收集器就是内存回收的具体实现。</strong></p>
+<p>虽然我们对各个收集器进行比较，但并非要挑选出一个最好的收集器。因为直到现在为止还没有最好的垃圾收集器出现，更加没有万能的垃圾收集器，<strong>我们能做的就是根据具体应用场景选择适合自己的垃圾收集器</strong>。试想一下：如果有一种四海之内、任何场景下都适用的完美收集器存在，那么我们的 HotSpot 虚拟机就不会实现那么多不同的垃圾收集器了。</p>
+<ul>
+<li><h4 id="Serial-收集器"><a href="#Serial-收集器" class="headerlink" title="Serial 收集器"></a>Serial 收集器</h4></li>
+</ul>
+<p>Serial（串行）收集器收集器是最基本、历史最悠久的垃圾收集器了。是一个单线程收集器，它只会使用一条垃圾收集线程去完成垃圾收集工作，且在进行垃圾收集工作的时候必须暂停其他所有的工作线程（ <strong>“Stop The World”</strong> ），直到它收集结束，以上也是它的弊端。优点在于<strong>简单而高效（与其他收集器的单线程相比）</strong>，由于没有线程交互的开销，自然可以获得很高的单线程收集效率。<strong>目前仍是HotSpot运行在客户端模式下的默认新生代收集器。</strong></p>
+<p><strong>新生代采用复制算法，老年代采用标记-整理算法。</strong></p>
+<p><img src="/2020/08/13/%E3%80%90JVM%E3%80%91%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/%E3%80%90JVM%E3%80%91%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6%5C1.png" alt></p>
+<ul>
+<li><h4 id="ParNew-收集器"><a href="#ParNew-收集器" class="headerlink" title="ParNew 收集器"></a>ParNew 收集器</h4></li>
+</ul>
+<p><strong>ParNew 收集器其实就是 Serial 收集器的多线程版本，除了使用多线程进行垃圾收集外，其余行为（控制参数、收集算法、回收策略等等）和 Serial 收集器完全一样。</strong></p>
+<p><strong>新生代采用复制算法，老年代采用标记-整理算法。</strong></p>
+<p>它是许多运行在 Server 模式下的虚拟机的首要选择，除了 Serial 收集器外，只有它能与 CMS 收集器（真正意义上的并发收集器，后面会介绍到）配合工作。</p>
+<p><img src="/2020/08/13/%E3%80%90JVM%E3%80%91%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/%E3%80%90JVM%E3%80%91%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6%5C2.png" alt></p>
+<ul>
+<li><h4 id="Parallel-Scavenge-收集器"><a href="#Parallel-Scavenge-收集器" class="headerlink" title="Parallel Scavenge 收集器"></a>Parallel Scavenge 收集器</h4></li>
+</ul>
+<p>Parallel Scavenge 收集器也是使用复制算法的多线程收集器，与ParNew相似，但关注点是高吞吐量（高效率的利用CPU）<strong>所谓吞吐量就是 CPU 中用于运行用户代码的时间与 CPU 总消耗时间的比值。</strong></p>
+<p><strong>新生代采用复制算法，老年代采用标记-整理算法。</strong></p>
+<ul>
+<li><h4 id="Serial-Old-收集器"><a href="#Serial-Old-收集器" class="headerlink" title="Serial Old 收集器"></a>Serial Old 收集器</h4></li>
+</ul>
+<p><strong>Serial 收集器的老年代版本</strong>，它同样是一个单线程收集器。它主要有两大用途：一种用途是在 JDK1.5 以及以前的版本中与 Parallel Scavenge 收集器搭配使用，另一种用途是作为 CMS 收集器的后备方案。</p>
+<ul>
+<li><h4 id="Parallel-Old-收集器"><a href="#Parallel-Old-收集器" class="headerlink" title="Parallel Old 收集器"></a>Parallel Old 收集器</h4></li>
+</ul>
+<p><strong>Parallel Scavenge 收集器的老年代版本</strong>。使用多线程和“标记-整理”算法。在注重吞吐量以及 CPU 资源的场合，都可以优先考虑 Parallel Scavenge 收集器和 Parallel Old 收集器。</p>
+<ul>
+<li><h4 id="CMS-收集器"><a href="#CMS-收集器" class="headerlink" title="CMS 收集器"></a>CMS 收集器</h4><ul>
+<li><strong>初始标记：</strong> 暂停所有的其他线程，并记录下直接与 root 相连的对象，速度很快 ；</li>
+<li><strong>并发标记：</strong> 并发地标记可达对象，但不能实时的完整标记完所有可达对象</li>
+<li><strong>重新标记：</strong> 重新标记阶段就是为了修正并发标记期间因为用户程序继续运行而导致标记产生变动的那一部分对象的标记记录，这个阶段的停顿时间一般会比初始标记阶段的时间稍长，远远比并发标记阶段时间短。“Stop the World”。</li>
+<li><strong>并发清除：</strong> 并发地清除所有未标记对象。</li>
+</ul>
+</li>
+</ul>
+<p>关注点在于减少用户线程等待时间，获取最短的回收停顿时间。利用于大部分互联网网站及服务端应用上。<strong>基于标记-清除算法</strong></p>
+<p>优点是：<strong>并发收集、低停顿</strong>。缺点是对CPU资源敏感，无法处理浮动垃圾，<strong>“标记-清除”算法会导致收集结束时会有大量空间碎片产生</strong></p>
+<ul>
+<li><h4 id="G1收集器"><a href="#G1收集器" class="headerlink" title="G1收集器"></a>G1收集器</h4><ul>
+<li><strong>初始标记</strong>：初始标记，类似CMS，</li>
+<li><strong>并发标记</strong>：进行可达性分析，与用户线程并发地执行，递归扫描整个堆的对象图，找到要回收的对象，与CMS收集器类似</li>
+<li><strong>最终标记</strong>：“Stop the World”,处理并发阶段的STAB记录。</li>
+<li><strong>筛选回收</strong>：“Stop the World”,对回收价值最高的Region区，使用复制算法清除。</li>
+</ul>
+<p>面向服务端，<strong>主要针对配备多颗处理器及大容量内存的机器</strong>，关注点为“在满足高吞吐量的同时，尽可能缩短用户线程停顿时间”</p>
+<p>内部实现将内存分为多个大小一致的Region区，每个Region区对应不同分代各区（如Eden区，Survivor区，Old区，Humorous区）实现的是混合回收</p>
+<p>优点：</p>
+<ul>
+<li>有并行也有并发：并行指利用多核CPU在“Stop the World”时使用多个GC线程并行执行。并发指在部分操作GC线程与用户线程并发地执行，提高吞吐量。</li>
+<li>物理分区，逻辑分代：在GC过程，物理回收面向的是每个Region区，Region区逻辑上可以指代不同的分代。从而实现分代理论，兼顾新生代和老年代处理。</li>
+<li>空间整合：局部层面，每次GC利用“标记-复制”算法，将一个Region区存活对象复制入另外的Region区，并对原Region清除。整体层面，每次Region的复制结果，存活对象在Region区间的移动更类似“标记-整理”算法，从而避免了空间碎片化。</li>
+<li>可预测的停顿时间：通过参数设置期望的停顿时间，G1内部维护着的Region回收优先列表，按回收价值排序，从而找到满足期望的停顿时间所最适合的Region区进行GC</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>G1相较CMS在运行过程中CPU负载较高，且占用更多内存</li>
+<li>在小内存场景下，CMS具有更高的效率。</li>
+</ul>
+<p><img src="https://user-gold-cdn.xitu.io/2020/6/28/172f88e292405e6f?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt></p>
+</li>
+<li><h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4></li>
+</ul>
+<p><img src="https://user-gold-cdn.xitu.io/2020/6/28/172f890f1baad386?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt></p>
+<h2 id="关于引用的补充"><a href="#关于引用的补充" class="headerlink" title="关于引用的补充"></a>关于引用的补充</h2><p>JDK1.2 以后，Java 对引用的概念进行了扩充，将引用分为强引用、软引用、弱引用、虚引用四种（引用强度逐渐减弱）</p>
+<p><strong>1．强引用（StrongReference）</strong>：不回收</p>
+<p>以前我们使用的大部分引用实际上都是强引用，这是使用最普遍的引用。如果一个对象具有强引用，那就类似于<strong>必不可少的生活用品</strong>，垃圾回收器绝不会回收它。当内存空间不足，Java 虚拟机宁愿抛出 OutOfMemoryError 错误，使程序异常终止，也不会靠随意回收具有强引用的对象来解决内存不足问题。</p>
+<p><strong>2．软引用（SoftReference）</strong>：内存不够则回收</p>
+<p>如果一个对象只具有软引用，那就类似于<strong>可有可无的生活用品</strong>。如果内存空间足够，垃圾回收器就不会回收它，如果内存空间不足了，就会回收这些对象的内存。只要垃圾回收器没有回收它，该对象就可以被程序使用。软引用可用来实现内存敏感的高速缓存。</p>
+<p>软引用可以和一个引用队列（ReferenceQueue）联合使用，如果软引用所引用的对象被垃圾回收，JAVA 虚拟机就会把这个软引用加入到与之关联的引用队列中。</p>
+<p><strong>3．弱引用（WeakReference）</strong>：发现则回收</p>
+<p>如果一个对象只具有弱引用，那就类似于<strong>可有可无的生活用品</strong>。弱引用与软引用的区别在于：只具有弱引用的对象拥有更短暂的生命周期。在垃圾回收器线程扫描它所管辖的内存区域的过程中，一旦发现了只具有弱引用的对象，不管当前内存空间足够与否，都会回收它的内存。不过，由于垃圾回收器是一个优先级很低的线程， 因此不一定会很快发现那些只具有弱引用的对象。</p>
+<p>弱引用可以和一个引用队列（ReferenceQueue）联合使用，如果弱引用所引用的对象被垃圾回收，Java 虚拟机就会把这个弱引用加入到与之关联的引用队列中。</p>
+<p><strong>4．虚引用（PhantomReference）</strong>：回收时跟踪返回通知</p>
+<p>“虚引用”顾名思义，就是形同虚设，与其他几种引用都不同，虚引用并不会决定对象的生命周期。如果一个对象仅持有虚引用，那么它就和没有任何引用一样，在任何时候都可能被垃圾回收。</p>
+<p><strong>虚引用主要用来跟踪对象被垃圾回收的活动</strong>。</p>
+<h2 id="内存自动分配原则"><a href="#内存自动分配原则" class="headerlink" title="内存自动分配原则"></a>内存自动分配原则</h2><ul>
+<li>对象优先在Eden区分配，即新生代分配：新生代空间不足，进行新生代GC(Minor GC)</li>
+<li>大对象直接进入老年代：需要大量连续内存的对象，类似数组或字符串，为了避免对连续大空间进行复制带来的效率降低</li>
+<li>长期存活对象将进入老年代：每个对象的年龄计数器，每存活过一次MinorGC，年龄加1，到达阈值则进入老年代</li>
+<li>动态对象年龄判断：并非必须超过阈值才能晋升老年代，当Survivor区中相同年龄对象总和大于Survivor区的一半，年龄大于等于该值的对象则直接进入老年代。</li>
+<li>空间分配担保：首先，分配担保机制是当一个Survivor区不足以存放Minor GC存放对象时所触发的，因为有一定理由判定这些对象将来能够进入老年代，所以在Survivor区不足时，提前进入老年代。其判定需先检查老年代最大连续空间是否足以存放新生代目前所有对象（最坏情况预估），成立则可以进行Minor GC。若不成立，会比较历次晋升到老年代对象的平均大小是否小于老年代最大连续空间，满足则会尝试MinorGC，否则进行FullGC</li>
+</ul>
+
       
          <!-- 添加版权声明 -->
     
@@ -235,7 +358,7 @@ var _hmt = _hmt || [];
       
       <br>
       <strong>本文链接：</strong>
-      <a href="https://passionzz.cn/2020/07/16/【剑指offer】栈的压入、弹出序列/" title="【剑指offer】栈的压入、弹出序列" target="_blank">https://passionzz.cn/2020/07/16/【剑指offer】栈的压入、弹出序列/</a>
+      <a href="https://passionzz.cn/2020/08/13/【JVM】垃圾回收机制/" title="【JVM】垃圾回收机制" target="_blank">https://passionzz.cn/2020/08/13/【JVM】垃圾回收机制/</a>
       <br>
       <strong>版权声明：</strong>
       本作品采用
@@ -259,15 +382,7 @@ var _hmt = _hmt || [];
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法&数据结构</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">剑指offer</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">栈</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">JVM</a>
         		</li>
       		
 		</ul>
@@ -323,7 +438,7 @@ var _hmt = _hmt || [];
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://passionzz.cn//2020/07/16/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E6%A0%88%E7%9A%84%E5%8E%8B%E5%85%A5%E3%80%81%E5%BC%B9%E5%87%BA%E5%BA%8F%E5%88%97/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://passionzz.cn//2020/08/13/%E3%80%90JVM%E3%80%91%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -337,18 +452,9 @@ var _hmt = _hmt || [];
   
 <nav id="article-nav">
   
-    <a href="/2020/07/16/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E4%BB%8E%E4%B8%8A%E5%88%B0%E4%B8%8B%E6%89%93%E5%8D%B0%E4%BA%8C%E5%8F%89%E6%A0%91/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          【剑指offer】从上到下打印二叉树
-        
-      </div>
-    </a>
   
-  
-    <a href="/2020/07/15/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E9%A1%BA%E6%97%B6%E9%92%88%E6%89%93%E5%8D%B0%E7%9F%A9%E9%98%B5/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">【剑指offer】顺时针打印矩阵</div>
+    <a href="/2020/08/12/%E3%80%90Java%E5%B9%B6%E5%8F%91%E3%80%91volatile-%E5%92%8Csynchronized%E5%85%B3%E9%94%AE%E5%AD%97/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">【Java并发】synchronized和volatile关键字</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -375,7 +481,7 @@ var _hmt = _hmt || [];
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#题目描述"><span class="toc-number">1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#思路方法"><span class="toc-number">2.</span> <span class="toc-text">思路方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考代码"><span class="toc-number">3.</span> <span class="toc-text">参考代码</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引入"><span class="toc-number">1.</span> <span class="toc-text">引入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#哪些内存需要回收"><span class="toc-number">2.</span> <span class="toc-text">哪些内存需要回收</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#判断对象是否”已死”（对应堆内存回收）"><span class="toc-number">2.0.1.</span> <span class="toc-text">判断对象是否”已死”（对应堆内存回收）</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#1-引用计数法"><span class="toc-number">2.0.1.0.1.</span> <span class="toc-text">1. 引用计数法</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#2-可达性分析算法"><span class="toc-number">2.0.1.0.2.</span> <span class="toc-text">2. 可达性分析算法</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#3-不可达对象并非完全死亡"><span class="toc-number">2.0.1.0.3.</span> <span class="toc-text">3.  不可达对象并非完全死亡</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#常量及类的回收判定（对应方法区回收）"><span class="toc-number">2.0.2.</span> <span class="toc-text">常量及类的回收判定（对应方法区回收）</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#如何判断一个常量是废弃常量"><span class="toc-number">2.0.2.0.1.</span> <span class="toc-text">如何判断一个常量是废弃常量</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#如何判断一个类不再使用"><span class="toc-number">2.0.2.0.2.</span> <span class="toc-text">如何判断一个类不再使用</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#垃圾回收算法"><span class="toc-number">3.</span> <span class="toc-text">垃圾回收算法</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#标记-清除算法"><span class="toc-number">3.0.0.1.</span> <span class="toc-text">标记-清除算法</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#标记-复制算法"><span class="toc-number">3.0.0.2.</span> <span class="toc-text">标记-复制算法</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#标记-整理算法"><span class="toc-number">3.0.0.3.</span> <span class="toc-text">标记-整理算法</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#垃圾收集器"><span class="toc-number">4.</span> <span class="toc-text">垃圾收集器</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Serial-收集器"><span class="toc-number">4.0.1.</span> <span class="toc-text">Serial 收集器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ParNew-收集器"><span class="toc-number">4.0.2.</span> <span class="toc-text">ParNew 收集器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Parallel-Scavenge-收集器"><span class="toc-number">4.0.3.</span> <span class="toc-text">Parallel Scavenge 收集器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Serial-Old-收集器"><span class="toc-number">4.0.4.</span> <span class="toc-text">Serial Old 收集器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Parallel-Old-收集器"><span class="toc-number">4.0.5.</span> <span class="toc-text">Parallel Old 收集器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CMS-收集器"><span class="toc-number">4.0.6.</span> <span class="toc-text">CMS 收集器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#G1收集器"><span class="toc-number">4.0.7.</span> <span class="toc-text">G1收集器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#总结"><span class="toc-number">4.0.8.</span> <span class="toc-text">总结</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关于引用的补充"><span class="toc-number">5.</span> <span class="toc-text">关于引用的补充</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#内存自动分配原则"><span class="toc-number">6.</span> <span class="toc-text">内存自动分配原则</span></a></li></ol>
                     </div>
                 </span>
             </div>
