@@ -6,14 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://passionzz.cn">
-  <title>Tag: 剑指offer | 翔仔年轻有力量</title>
+  <title>【Redis】常用五大数据类型简介 | 翔仔年轻有力量</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="翔仔年轻有力量">
-<meta property="og:url" content="https://passionzz.cn/tags/%E5%89%91%E6%8C%87offer/index.html">
+  <meta name="description" content="Redis五大数据类型简介 String-字符串 string是redis中最基本的类型，一个key对应一个value string类型为二进制安全，可以包含任何数据，比如jpg图片或序列化对象 一个redis的String字符串最多可以是512M   Hash-哈希 hash为键值对集合，类似java中的Map&lt;String,Object&gt; Redis hash是一个string类型">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Redis】常用五大数据类型简介">
+<meta property="og:url" content="https://passionzz.cn/2020/08/22/%E3%80%90Redis%E3%80%91%E5%B8%B8%E7%94%A8%E4%BA%94%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/index.html">
 <meta property="og:site_name" content="翔仔年轻有力量">
+<meta property="og:description" content="Redis五大数据类型简介 String-字符串 string是redis中最基本的类型，一个key对应一个value string类型为二进制安全，可以包含任何数据，比如jpg图片或序列化对象 一个redis的String字符串最多可以是512M   Hash-哈希 hash为键值对集合，类似java中的Map&lt;String,Object&gt; Redis hash是一个string类型">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-08-22T04:23:14.000Z">
+<meta property="article:modified_time" content="2020-08-22T09:18:47.857Z">
 <meta property="article:author" content="PassionZz&#x2F;ZYX">
+<meta property="article:tag" content="Redis">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="翔仔年轻有力量" type="application/atom+xml">
@@ -175,463 +180,740 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-【Redis】常用五大数据类型" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      【Redis】常用五大数据类型简介
+    </h1>
   
+
+        
+        
+	<!-- 不蒜子统计 -->
+	<span id="busuanzi_container_page_pv" style='display:none' class="archive-article-date">
+		  <i class="icon-smile icon"></i> 阅读数：<span id="busuanzi_value_page_pv"></span>次
+	</span>
+
+<a href="/2020/08/22/%E3%80%90Redis%E3%80%91%E5%B8%B8%E7%94%A8%E4%BA%94%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" class="archive-article-date">
+  	<time datetime="2020-08-22T04:23:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-22</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Redis五大数据类型"><a href="#Redis五大数据类型" class="headerlink" title="Redis五大数据类型"></a>Redis五大数据类型</h2><h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><ul>
+<li>String-字符串<ul>
+<li>string是redis中最基本的类型，一个key对应一个value</li>
+<li>string类型为二进制安全，可以包含任何数据，比如jpg图片或序列化对象</li>
+<li>一个redis的String字符串最多可以是512M</li>
+</ul>
+</li>
+<li>Hash-哈希<ul>
+<li>hash为键值对集合，类似java中的Map&lt;String,Object&gt;</li>
+<li>Redis hash是一个string类型的field和value的映射表，hash适合用于存储对象</li>
+</ul>
+</li>
+<li>List-列表<ul>
+<li>简单的字符串列表，按照插入顺序排序（包含左侧插入和右侧插入）</li>
+<li>底层为链表</li>
+</ul>
+</li>
+<li>Set-集合<ul>
+<li>Set是String类型的无序集合（不重复），存储integer类型是有序不重复</li>
+<li>底层为HashTable</li>
+</ul>
+</li>
+<li>Zset-有序集合<ul>
+<li>zset和set一样为string类型元素集合，不允许重复成员</li>
+<li>每个成员关联一个double类型的分数score，redis根据score从小到大进行排序</li>
+</ul>
+</li>
+</ul>
+<a id="more"></a>
+
+<h4 id="Key关键字"><a href="#Key关键字" class="headerlink" title="Key关键字"></a>Key关键字</h4><p>常用命令：</p>
+<ul>
+<li>keys *</li>
+<li>exists key的名字，判断某个key是否存在</li>
+<li>move key db —&gt;当前库就没有了，被移除了</li>
+<li>expire key 秒钟：为给定的key设置过期时间</li>
+<li>ttl key 查看还有多少秒过期，-1表示永不过期，-2表示已过期</li>
+<li>type key 查看你的key是什么类型</li>
+</ul>
+<p>附</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th align="center">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DEL key</td>
+<td align="center">该命令用于在 key 存在时删除 key。</td>
+</tr>
+<tr>
+<td>DUMP key</td>
+<td align="center">序列化给定 key ，并返回被序列化的值。</td>
+</tr>
+<tr>
+<td>EXISTS key</td>
+<td align="center">检查给定 key 是否存在。</td>
+</tr>
+<tr>
+<td>EXPIRE key seconds</td>
+<td align="center">为给定 key 设置过期时间，以秒计。</td>
+</tr>
+<tr>
+<td>EXPIREAT key timestamp</td>
+<td align="center">EXPIREAT 的作用和 EXPIRE 类似，都用于为 key 设置过期时间。 不同在于 EXPIREAT 命令接受的时间参数是 UNIX 时间戳(unix timestamp)。</td>
+</tr>
+<tr>
+<td>PEXPIRE key milliseconds</td>
+<td align="center">设置 key 的过期时间以毫秒计。</td>
+</tr>
+<tr>
+<td>PEXPIREAT key milliseconds-timestamp</td>
+<td align="center">设置 key 过期时间的时间戳(unix timestamp) 以毫秒计</td>
+</tr>
+<tr>
+<td>KEYS pattern</td>
+<td align="center">查找所有符合给定模式( pattern)的 key 。</td>
+</tr>
+<tr>
+<td>MOVE key db</td>
+<td align="center">将当前数据库的 key 移动到给定的数据库 db 当中。</td>
+</tr>
+<tr>
+<td>PERSIST key</td>
+<td align="center">移除 key 的过期时间，key 将持久保持。</td>
+</tr>
+<tr>
+<td>PTTL key</td>
+<td align="center">以毫秒为单位返回 key 的剩余的过期时间。</td>
+</tr>
+<tr>
+<td>TTL key</td>
+<td align="center">以秒为单位，返回给定 key 的剩余生存时间(TTL, time to live)。</td>
+</tr>
+<tr>
+<td>RANDOMKEY</td>
+<td align="center">从当前数据库中随机返回一个 key 。</td>
+</tr>
+<tr>
+<td>RENAME key newkey</td>
+<td align="center">修改 key 的名称</td>
+</tr>
+<tr>
+<td>RENAMENX key newkey</td>
+<td align="center">仅当 newkey 不存在时，将 key 改名为 newkey 。</td>
+</tr>
+<tr>
+<td>SCAN cursor [MATCH pattern] [COUNT count]</td>
+<td align="center">迭代数据库中的数据库键。</td>
+</tr>
+<tr>
+<td>TYPE key</td>
+<td align="center">返回 key 所储存的值的类型。</td>
+</tr>
+</tbody></table>
+<h4 id="String类型命令"><a href="#String类型命令" class="headerlink" title="String类型命令"></a>String类型命令</h4><p>常用：</p>
+<ul>
+<li>set/get/del/append/strlen</li>
+<li>Incr/decr/incrby/decrby,一定要是数字才能进行加减</li>
+<li>getrange/setrange</li>
+<li>setex(set with expire)键秒值/setnx(set if not exist)</li>
+<li>mset/mget/msetnx</li>
+<li>getset(先get再set)</li>
+</ul>
+<p>附：</p>
+<table>
+<thead>
+<tr>
+<th align="left">命令</th>
+<th align="center">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">SET key value</td>
+<td align="center">设置指定 key 的值</td>
+</tr>
+<tr>
+<td align="left">GET key</td>
+<td align="center">获取指定 key 的值。</td>
+</tr>
+<tr>
+<td align="left">GETRANGE key start end</td>
+<td align="center">返回 key 中字符串值的子字符</td>
+</tr>
+<tr>
+<td align="left">GETSET key value</td>
+<td align="center">将给定 key 的值设为 value ，并返回 key 的旧值(old value)。</td>
+</tr>
+<tr>
+<td align="left">GETBIT key offset</td>
+<td align="center">对 key 所储存的字符串值，获取指定偏移量上的位(bit)。</td>
+</tr>
+<tr>
+<td align="left">MGET key1 [key2..]</td>
+<td align="center">获取所有(一个或多个)给定 key 的值。</td>
+</tr>
+<tr>
+<td align="left">SETBIT key offset value</td>
+<td align="center">对 key 所储存的字符串值，设置或清除指定偏移量上的位(bit)。</td>
+</tr>
+<tr>
+<td align="left">SETEX key seconds value</td>
+<td align="center">将值 value 关联到 key ，并将 key 的过期时间设为 seconds (以秒为单位)。</td>
+</tr>
+<tr>
+<td align="left">SETNX key value</td>
+<td align="center">只有在 key 不存在时设置 key 的值。</td>
+</tr>
+<tr>
+<td align="left">SETRANGE key offset value</td>
+<td align="center">用 value 参数覆写给定 key 所储存的字符串值，从偏移量 offset 开始。</td>
+</tr>
+<tr>
+<td align="left">STRLEN key</td>
+<td align="center">返回 key 所储存的字符串值的长度。</td>
+</tr>
+<tr>
+<td align="left">MSET key value [key value …]</td>
+<td align="center">同时设置一个或多个 key-value 对。</td>
+</tr>
+<tr>
+<td align="left">MSETNX key value [key value …]</td>
+<td align="center">同时设置一个或多个 key-value 对，当且仅当所有给定 key 都不存在。</td>
+</tr>
+<tr>
+<td align="left">PSETEX key milliseconds value</td>
+<td align="center">这个命令和 SETEX 命令相似，但它以毫秒为单位设置 key 的生存时间，而不是像 SETEX 命令那样，以秒为单位。</td>
+</tr>
+<tr>
+<td align="left">INCR key</td>
+<td align="center">将 key 中储存的数字值增一。</td>
+</tr>
+<tr>
+<td align="left">INCRBY key increment</td>
+<td align="center">将 key 所储存的值加上给定的增量值（increment） 。</td>
+</tr>
+<tr>
+<td align="left">INCRBYFLOAT key increment</td>
+<td align="center">将 key 所储存的值加上给定的浮点增量值（increment） 。</td>
+</tr>
+<tr>
+<td align="left">DECR key</td>
+<td align="center">将 key 中储存的数字值减一。</td>
+</tr>
+<tr>
+<td align="left">DECRBY key decrement</td>
+<td align="center">key 所储存的值减去给定的减量值（decrement） 。</td>
+</tr>
+<tr>
+<td align="left">APPEND key value</td>
+<td align="center">如果 key 已经存在并且是一个字符串， APPEND 命令将指定的 value 追加到该 key 原来值（value）的末尾。</td>
+</tr>
+</tbody></table>
+<h4 id="List类型命令"><a href="#List类型命令" class="headerlink" title="List类型命令"></a>List类型命令</h4><p>常用：</p>
+<ul>
+<li>lpush/rpush/lrange</li>
+<li>lpop/rpop</li>
+<li>lindex，按照索引下标获得元素(从上到下)</li>
+<li>llen</li>
+<li>lrem key 删N个value</li>
+<li>ltrim key 开始index 结束index，截取指定范围的值后再赋值给key</li>
+<li>rpoplpush 源列表 目的列表</li>
+<li>lset key index value</li>
+<li>linsert key before/after 值1 值2</li>
+</ul>
+<p>附</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>BLPOP key1 [key2 ] timeout</td>
+<td>移出并获取列表的第一个元素， 如果列表没有元素会阻塞列表直到等待超时或发现可弹出元素为止。</td>
+</tr>
+<tr>
+<td>BRPOP key1 [key2 ] timeout</td>
+<td>移出并获取列表的最后一个元素， 如果列表没有元素会阻塞列表直到等待超时或发现可弹出元素为止。</td>
+</tr>
+<tr>
+<td>BRPOPLPUSH source destination timeout</td>
+<td>从列表中弹出一个值，将弹出的元素插入到另外一个列表中并返回它； 如果列表没有元素会阻塞列表直到等待超时或发现可弹出元素为止。</td>
+</tr>
+<tr>
+<td>LINDEX key index</td>
+<td>通过索引获取列表中的元素</td>
+</tr>
+<tr>
+<td>LINSERT key BEFORE/AFTER pivot value</td>
+<td>在列表的元素前或者后插入元素</td>
+</tr>
+<tr>
+<td>LLEN key</td>
+<td>获取列表长度</td>
+</tr>
+<tr>
+<td>LPOP key</td>
+<td>移出并获取列表的第一个元素</td>
+</tr>
+<tr>
+<td>LPUSH key value1 [value2]</td>
+<td>将一个或多个值插入到列表头部</td>
+</tr>
+<tr>
+<td>LPUSHX key value</td>
+<td>将一个值插入到已存在的列表头部</td>
+</tr>
+<tr>
+<td>LRANGE key start stop</td>
+<td>获取列表指定范围内的元素</td>
+</tr>
+<tr>
+<td>LREM key count value</td>
+<td>移除列表元素</td>
+</tr>
+<tr>
+<td>LSET key index value</td>
+<td>通过索引设置列表元素的值</td>
+</tr>
+<tr>
+<td>LTRIM key start stop</td>
+<td>对一个列表进行修剪(trim)，就是说，让列表只保留指定区间内的元素，不在指定区间之内的元素都将被删除。</td>
+</tr>
+<tr>
+<td>RPOP key</td>
+<td>移除列表的最后一个元素，返回值为移除的元素。</td>
+</tr>
+<tr>
+<td>RPOPLPUSH source destination</td>
+<td>移除列表的最后一个元素，并将该元素添加到另一个列表并返回</td>
+</tr>
+<tr>
+<td>RPUSH key value1 [value2]</td>
+<td>在列表中添加一个或多个值</td>
+</tr>
+<tr>
+<td>RPUSHX key value</td>
+<td>为已存在的列表添加值</td>
+</tr>
+</tbody></table>
+<h4 id="Set类型命令"><a href="#Set类型命令" class="headerlink" title="Set类型命令"></a>Set类型命令</h4><p>常用：</p>
+<ul>
+<li>sadd/smembers/sismember</li>
+<li>scard，获取集合里面的元素个数</li>
+<li>srem key value 删除集合中元素</li>
+<li>srandmember key 某个整数(随机出几个数)</li>
+<li>spop key 随机出栈</li>
+<li>smove key1 key2 在key1里某个值 作用是将key1里的某个值赋给key2</li>
+<li>数学集合类<ul>
+<li>差集：sdiff</li>
+<li>交集：sinter</li>
+<li>并集：sunion</li>
+</ul>
+</li>
+</ul>
+<p>附</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SADD key member1 [member2]</td>
+<td>向集合添加一个或多个成员</td>
+</tr>
+<tr>
+<td>SCARD key</td>
+<td>获取集合的成员数</td>
+</tr>
+<tr>
+<td>SDIFF key1 [key2]</td>
+<td>返回给定所有集合的差集</td>
+</tr>
+<tr>
+<td>SDIFFSTORE destination key1 [key2]</td>
+<td>返回给定所有集合的差集并存储在 destination 中</td>
+</tr>
+<tr>
+<td>SINTER key1 [key2]</td>
+<td>返回给定所有集合的交集</td>
+</tr>
+<tr>
+<td>SINTERSTORE destination key1 [key2]</td>
+<td>返回给定所有集合的交集并存储在 destination 中</td>
+</tr>
+<tr>
+<td>SISMEMBER key member</td>
+<td>判断 member 元素是否是集合 key 的成员</td>
+</tr>
+<tr>
+<td>SMEMBERS key</td>
+<td>返回集合中的所有成员</td>
+</tr>
+<tr>
+<td>SMOVE source destination member</td>
+<td>将 member 元素从 source 集合移动到 destination 集合</td>
+</tr>
+<tr>
+<td>SPOP key</td>
+<td>移除并返回集合中的一个随机元素</td>
+</tr>
+<tr>
+<td>SRANDMEMBER key [count]</td>
+<td>返回集合中一个或多个随机数</td>
+</tr>
+<tr>
+<td>SREM key member1 [member2]</td>
+<td>移除集合中一个或多个成员</td>
+</tr>
+<tr>
+<td>SUNION key1 [key2]</td>
+<td>返回所有给定集合的并集</td>
+</tr>
+<tr>
+<td>SUNIONSTORE destination key1 [key2]</td>
+<td>所有给定集合的并集存储在 destination 集合中</td>
+</tr>
+<tr>
+<td>SSCAN key cursor [MATCH pattern] [COUNT count]</td>
+<td>迭代集合中的元素</td>
+</tr>
+</tbody></table>
+<h4 id="Hash类型命令"><a href="#Hash类型命令" class="headerlink" title="Hash类型命令"></a>Hash类型命令</h4><p>常用：</p>
+<ul>
+<li>hset/hget/hmset/hmget/hgetall/hdel</li>
+<li>hlen</li>
+<li>hexists key 在key里面的某个值的key</li>
+<li>hkeys/hvals</li>
+<li>hincrby/hincrbyfloat</li>
+<li>hsetnx</li>
+</ul>
+<p>附</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>HDEL key field1 [field2]</td>
+<td>删除一个或多个哈希表字段</td>
+</tr>
+<tr>
+<td>HEXISTS key field</td>
+<td>查看哈希表 key 中，指定的字段是否存在。</td>
+</tr>
+<tr>
+<td>HGET key field</td>
+<td>获取存储在哈希表中指定字段的值。</td>
+</tr>
+<tr>
+<td>HGETALL key</td>
+<td>获取在哈希表中指定 key 的所有字段和值</td>
+</tr>
+<tr>
+<td>HINCRBY key field increment</td>
+<td>为哈希表 key 中的指定字段的整数值加上增量 increment 。</td>
+</tr>
+<tr>
+<td>HINCRBYFLOAT key field increment</td>
+<td>为哈希表 key 中的指定字段的浮点数值加上增量 increment 。</td>
+</tr>
+<tr>
+<td>HKEYS key</td>
+<td>获取所有哈希表中的字段</td>
+</tr>
+<tr>
+<td>HLEN key</td>
+<td>获取哈希表中字段的数量</td>
+</tr>
+<tr>
+<td>HMGET key field1 [field2]</td>
+<td>获取所有给定字段的值</td>
+</tr>
+<tr>
+<td>HMSET key field1 value1 [field2 value2 ]</td>
+<td>同时将多个 field-value (域-值)对设置到哈希表 key 中。</td>
+</tr>
+<tr>
+<td>HSET key field value</td>
+<td>将哈希表 key 中的字段 field 的值设为 value 。</td>
+</tr>
+<tr>
+<td>HSETNX key field value</td>
+<td>只有在字段 field 不存在时，设置哈希表字段的值。</td>
+</tr>
+<tr>
+<td>HVALS key</td>
+<td>获取哈希表中所有值。</td>
+</tr>
+<tr>
+<td>HSCAN key cursor [MATCH pattern] [COUNT count]</td>
+<td>迭代哈希表中的键值对。</td>
+</tr>
+</tbody></table>
+<h4 id="Zset类型命令"><a href="#Zset类型命令" class="headerlink" title="Zset类型命令"></a>Zset类型命令</h4><p>常用：</p>
+<ul>
+<li>zadd/zrange<ul>
+<li>Withscores</li>
+</ul>
+</li>
+<li>zrangebyscore key 开始score 结束score<ul>
+<li>withscores</li>
+<li>( 不包含</li>
+<li>Limit 作用是返回限制<ul>
+<li>limit 开始下标步 多少步</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>zrem key 某score下对应的value值，作用是删除元素</li>
+<li>zcard/zcount key score区间/zrank key values值，作用是获得下标值/zscore key 对应值,获得分数</li>
+<li>zrevrank key values值，作用是逆序获得下标值</li>
+<li>zrevrange</li>
+<li>zrevrangebyscore key 结束score 开始score</li>
+</ul>
+<p>附</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ZADD key score1 member1 [score2 member2]</td>
+<td>向有序集合添加一个或多个成员，或者更新已存在成员的分数</td>
+</tr>
+<tr>
+<td>ZCARD key</td>
+<td>获取有序集合的成员数</td>
+</tr>
+<tr>
+<td>ZCOUNT key min max</td>
+<td>计算在有序集合中指定区间分数的成员数</td>
+</tr>
+<tr>
+<td>ZINCRBY key increment member</td>
+<td>有序集合中对指定成员的分数加上增量 increment</td>
+</tr>
+<tr>
+<td>ZINTERSTORE destination numkeys key [key …]</td>
+<td>计算给定的一个或多个有序集的交集并将结果集存储在新的有序集合 key 中</td>
+</tr>
+<tr>
+<td>ZLEXCOUNT key min max</td>
+<td>在有序集合中计算指定字典区间内成员数量</td>
+</tr>
+<tr>
+<td>ZRANGE key start stop [WITHSCORES]</td>
+<td>通过索引区间返回有序集合指定区间内的成员</td>
+</tr>
+<tr>
+<td>ZRANGEBYLEX key min max [LIMIT offset count]</td>
+<td>通过字典区间返回有序集合的成员</td>
+</tr>
+<tr>
+<td>ZRANGEBYSCORE key min max [WITHSCORES] [LIMIT]</td>
+<td>通过分数返回有序集合指定区间内的成员</td>
+</tr>
+<tr>
+<td>ZRANK key member</td>
+<td>返回有序集合中指定成员的索引</td>
+</tr>
+<tr>
+<td>ZREM key member [member …]</td>
+<td>移除有序集合中的一个或多个成员</td>
+</tr>
+<tr>
+<td>ZREMRANGEBYLEX key min max</td>
+<td>移除有序集合中给定的字典区间的所有成员</td>
+</tr>
+<tr>
+<td>ZREMRANGEBYRANK key start stop</td>
+<td>移除有序集合中给定的排名区间的所有成员</td>
+</tr>
+<tr>
+<td>ZREMRANGEBYSCORE key min max</td>
+<td>移除有序集合中给定的分数区间的所有成员</td>
+</tr>
+<tr>
+<td>ZREVRANGE key start stop [WITHSCORES]</td>
+<td>返回有序集中指定区间内的成员，通过索引，分数从高到低</td>
+</tr>
+<tr>
+<td>ZREVRANGEBYSCORE key max min [WITHSCORES]</td>
+<td>返回有序集中指定分数区间内的成员，分数从高到低排序</td>
+</tr>
+<tr>
+<td>ZREVRANK key member</td>
+<td>返回有序集合中指定成员的排名，有序集成员按分数值递减(从大到小)排序</td>
+</tr>
+<tr>
+<td>ZSCORE key member</td>
+<td>返回有序集中，成员的分数值</td>
+</tr>
+<tr>
+<td>ZUNIONSTORE destination numkeys key [key …]</td>
+<td>计算给定的一个或多个有序集的并集，并存储在新的 key 中</td>
+</tr>
+<tr>
+<td>ZSCAN key cursor [MATCH pattern] [COUNT count]</td>
+<td>迭代有序集合中的元素（包括元素成员和元素分值）</td>
+</tr>
+</tbody></table>
+
+      
+         <!-- 添加版权声明 -->
     
     
+    <div class="declare" hidden="hidden"></div>
+    
+        <!-- 添加版权声明 -->
+  
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/08/09/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E6%A0%91%E7%9A%84%E6%9C%80%E8%BF%91%E5%85%AC%E5%85%B1%E7%A5%96%E5%85%88/" class="archive-article-date">
-  	<time datetime="2020-08-09T01:31:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/08/09/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E6%A0%91%E7%9A%84%E6%9C%80%E8%BF%91%E5%85%AC%E5%85%B1%E7%A5%96%E5%85%88/">【剑指offer】树的最近公共祖先</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法&数据结构</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">剑指offer</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">二叉树</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Redis</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://passionzz.cn//2020/08/22/%E3%80%90Redis%E3%80%91%E5%B8%B8%E7%94%A8%E4%BA%94%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/08/09/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E6%8A%8A%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BD%AC%E6%8D%A2%E6%88%90%E6%95%B4%E6%95%B0/" class="archive-article-date">
-  	<time datetime="2020-08-09T01:30:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-09</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2020/08/13/%E3%80%90JVM%E3%80%91%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">【JVM】垃圾回收机制</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/08/09/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E6%8A%8A%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BD%AC%E6%8D%A2%E6%88%90%E6%95%B4%E6%95%B0/">【剑指offer】把字符串转换成整数</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">字符串</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法&数据结构</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">剑指offer</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Redis五大数据类型"><span class="toc-number">1.</span> <span class="toc-text">Redis五大数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#简介"><span class="toc-number">1.0.1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Key关键字"><span class="toc-number">1.0.2.</span> <span class="toc-text">Key关键字</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#String类型命令"><span class="toc-number">1.0.3.</span> <span class="toc-text">String类型命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#List类型命令"><span class="toc-number">1.0.4.</span> <span class="toc-text">List类型命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Set类型命令"><span class="toc-number">1.0.5.</span> <span class="toc-text">Set类型命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Hash类型命令"><span class="toc-number">1.0.6.</span> <span class="toc-text">Hash类型命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Zset类型命令"><span class="toc-number">1.0.7.</span> <span class="toc-text">Zset类型命令</span></a></li></ol></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+        
+    </div>
+</aside>
+
+
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/08/09/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E6%9E%84%E5%BB%BA%E4%B9%98%E7%A7%AF%E6%95%B0%E7%BB%84/" class="archive-article-date">
-  	<time datetime="2020-08-09T01:30:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-09</time>
-</a>
-        </div>
-    	 
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/08/09/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E6%9E%84%E5%BB%BA%E4%B9%98%E7%A7%AF%E6%95%B0%E7%BB%84/">【剑指offer】构建乘积数组</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法&数据结构</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">剑指offer</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/08/08/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E4%B8%8D%E7%94%A8%E5%8A%A0%E5%87%8F%E4%B9%98%E9%99%A4%E5%81%9A%E5%8A%A0%E6%B3%95/" class="archive-article-date">
-  	<time datetime="2020-08-08T07:16:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/08/08/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E4%B8%8D%E7%94%A8%E5%8A%A0%E5%87%8F%E4%B9%98%E9%99%A4%E5%81%9A%E5%8A%A0%E6%B3%95/">【剑指offer】不用加减乘除做加法</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法&数据结构</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">剑指offer</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/08/08/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E6%B1%821-2-3-n/" class="archive-article-date">
-  	<time datetime="2020-08-08T03:30:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/08/08/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E6%B1%821-2-3-n/">【剑指offer】求1+2+3+...+n</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法&数据结构</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">剑指offer</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/08/08/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E8%82%A1%E7%A5%A8%E7%9A%84%E6%9C%80%E5%A4%A7%E5%88%A9%E6%B6%A6/" class="archive-article-date">
-  	<time datetime="2020-08-08T03:28:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/08/08/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E8%82%A1%E7%A5%A8%E7%9A%84%E6%9C%80%E5%A4%A7%E5%88%A9%E6%B6%A6/">【剑指offer】股票的最大利润</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法&数据结构</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">剑指offer</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/08/08/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E5%9C%86%E5%9C%88%E4%B8%AD%E6%9C%80%E5%90%8E%E5%89%A9%E4%B8%8B%E7%9A%84%E6%95%B0%E5%AD%97/" class="archive-article-date">
-  	<time datetime="2020-08-08T03:27:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/08/08/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E5%9C%86%E5%9C%88%E4%B8%AD%E6%9C%80%E5%90%8E%E5%89%A9%E4%B8%8B%E7%9A%84%E6%95%B0%E5%AD%97/">【剑指offer】圆圈中最后剩下的数字</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法&数据结构</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">剑指offer</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/08/07/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E6%89%91%E5%85%8B%E7%89%8C%E4%B8%AD%E7%9A%84%E9%A1%BA%E5%AD%90/" class="archive-article-date">
-  	<time datetime="2020-08-07T03:05:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-07</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/08/07/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E6%89%91%E5%85%8B%E7%89%8C%E4%B8%AD%E7%9A%84%E9%A1%BA%E5%AD%90/">【剑指offer】扑克牌中的顺子</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法&数据结构</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">剑指offer</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/08/07/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91n%E4%B8%AA%E9%AA%B0%E5%AD%90%E7%9A%84%E7%82%B9%E6%95%B0/" class="archive-article-date">
-  	<time datetime="2020-08-07T03:05:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-07</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/08/07/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91n%E4%B8%AA%E9%AA%B0%E5%AD%90%E7%9A%84%E7%82%B9%E6%95%B0/">【剑指offer】n个骰子的点数</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法&数据结构</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">剑指offer</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/2020/08/07/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E9%98%9F%E5%88%97%E7%9A%84%E6%9C%80%E5%A4%A7%E5%80%BC/" class="archive-article-date">
-  	<time datetime="2020-08-07T02:43:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-07</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/08/07/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E9%98%9F%E5%88%97%E7%9A%84%E6%9C%80%E5%A4%A7%E5%80%BC/">【剑指offer】队列的最大值</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法&数据结构</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">剑指offer</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/tags/%E5%89%91%E6%8C%87offer/page/2/">2</a><a class="page-number" href="/tags/%E5%89%91%E6%8C%87offer/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/tags/%E5%89%91%E6%8C%87offer/page/7/">7</a><a class="extend next" rel="next" href="/tags/%E5%89%91%E6%8C%87offer/page/2/">Next &amp;raquo;</a>
-    </nav>
   
 
 
@@ -668,9 +950,9 @@ var _hmt = _hmt || [];
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
