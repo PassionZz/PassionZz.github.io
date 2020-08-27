@@ -177,6 +177,349 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-【Spring】Spring-IOC原理" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/08/27/%E3%80%90Spring%E3%80%91Spring-IOC%E5%8E%9F%E7%90%86/">【Spring】Spring IOC原理</a>
+    </h1>
+  
+
+        
+        
+<a href="/2020/08/27/%E3%80%90Spring%E3%80%91Spring-IOC%E5%8E%9F%E7%90%86/" class="archive-article-date">
+  	<time datetime="2020-08-27T12:04:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-27</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h1><p>通过对IoC的思想及其实现方式DI有了一定的了解之后，我们知道Spring IoC的实质操作途径，是通过BeanFactory来创建实例Bean，并对Bean之间的关系进行管理，和依赖的注入。在需要Bean的时候，有BeanFactory来创建，而不需要开发者手动的创建Bean</p>
+<p>那么，接下来看看作为生产Bean的工厂BeanFactory是如何工作的，和Bean的相关属性及其生命周期</p>
+        
+      
+         <!-- 添加版权声明 -->
+    
+    
+    <div class="declare" hidden="hidden"></div>
+    
+        <!-- 添加版权声明 -->
+  
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Spring</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/08/27/%E3%80%90Spring%E3%80%91Spring-IOC%E5%8E%9F%E7%90%86/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-【Java并发】Java线程池" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/08/27/%E3%80%90Java%E5%B9%B6%E5%8F%91%E3%80%91Java%E7%BA%BF%E7%A8%8B%E6%B1%A0/">【Java并发】Java线程池</a>
+    </h1>
+  
+
+        
+        
+<a href="/2020/08/27/%E3%80%90Java%E5%B9%B6%E5%8F%91%E3%80%91Java%E7%BA%BF%E7%A8%8B%E6%B1%A0/" class="archive-article-date">
+  	<time datetime="2020-08-27T03:22:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-27</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="什么是线程池"><a href="#什么是线程池" class="headerlink" title="什么是线程池"></a>什么是线程池</h1><p>在普通多线程并发场景下（不使用线程池），采取多线程编程往往需要开发者关注各个线程之间的调度，管理以及创建线程带来的资源消耗。如若不加以控制和管理，随意使用线程，对系统的性能会产生不利的影响。因此线程使用须管理得当，保证在有限的范围使用一定的线程数量以达到提高系统吞吐量的目的。</p>
+<p>为避免系统频繁地创建和销毁线程（线程的创建销毁需要花费时间），需要对创建的线程进行复用（即完成了一项’任务’后，不销毁而是挂起，有新的任务时再调用该线程执行任务）。类似于数据库连接池中数据库连接的控制与管理，<strong>线程池保有几个活跃线程，每次需要使用线程，从池子中获取线程来完成任务。结束任务后线程无需销毁，而是将线程“还给”池子。对多线程的控制管理也从开发者转为了线程池。</strong></p>
+<blockquote>
+<p>线程池做的工作主要是控制运行的线程的数量，处理过程中将任务放入队列，然后在线程创建后启动这些任务，如果线程数量超过了最大数量超出数量的线程排队等候，等其它线程执行完毕，再从队列中取出任务来执行。他的主要特点为：线程复用；控制最大并发数；管理线程。</p>
+</blockquote>
+<p>线程池的好处：</p>
+<ul>
+<li><strong>降低资源消耗</strong>。通过重复利用已创建的线程降低线程创建和销毁造成的消耗。</li>
+<li><strong>提高响应速度</strong>。当任务到达时，任务可以不需要的等到线程创建就能立即执行。</li>
+<li><strong>提高线程的可管理性</strong>。线程是稀缺资源，如果无限制的创建，不仅会消耗系统资源，还会降低系统的稳定性，使用线程池可以进行统一的分配，调优和监控。</li>
+</ul>
+        
+      
+         <!-- 添加版权声明 -->
+    
+    
+    <div class="declare" hidden="hidden"></div>
+    
+        <!-- 添加版权声明 -->
+  
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Java并发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/08/27/%E3%80%90Java%E5%B9%B6%E5%8F%91%E3%80%91Java%E7%BA%BF%E7%A8%8B%E6%B1%A0/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-【Redis】持久化：RDB" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/08/25/%E3%80%90Redis%E3%80%91%E6%8C%81%E4%B9%85%E5%8C%96%EF%BC%9ARDB/">【Redis】持久化：RDB</a>
+    </h1>
+  
+
+        
+        
+<a href="/2020/08/25/%E3%80%90Redis%E3%80%91%E6%8C%81%E4%B9%85%E5%8C%96%EF%BC%9ARDB/" class="archive-article-date">
+  	<time datetime="2020-08-25T14:58:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-25</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Redis持久化"><a href="#Redis持久化" class="headerlink" title="Redis持久化"></a>Redis持久化</h2>
+      
+         <!-- 添加版权声明 -->
+    
+    
+    <div class="declare" hidden="hidden"></div>
+    
+        <!-- 添加版权声明 -->
+  
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Redis</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/08/25/%E3%80%90Redis%E3%80%91%E6%8C%81%E4%B9%85%E5%8C%96%EF%BC%9ARDB/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-【Spring】IoC及AOP原理(1)概念及特点" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/08/24/%E3%80%90Spring%E3%80%91IoC%E5%8F%8AAOP%E5%8E%9F%E7%90%86(1)%E6%A6%82%E5%BF%B5%E5%8F%8A%E7%89%B9%E7%82%B9/">【Spring】IoC及AOP原理(1)概念及特点</a>
+    </h1>
+  
+
+        
+        
+<a href="/2020/08/24/%E3%80%90Spring%E3%80%91IoC%E5%8F%8AAOP%E5%8E%9F%E7%90%86(1)%E6%A6%82%E5%BF%B5%E5%8F%8A%E7%89%B9%E7%82%B9/" class="archive-article-date">
+  	<time datetime="2020-08-24T09:16:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-24</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="常见面试题引入"><a href="#常见面试题引入" class="headerlink" title="常见面试题引入"></a>常见面试题引入</h1><ul>
+<li>Spring IoC的初始化过程</li>
+<li>IoC原理</li>
+<li>如何实现一个IoC容器</li>
+<li>谈谈对于Spring IoC和 AOP的理解</li>
+<li>IoC和AOP各解决了什么问题</li>
+<li>IoC和DI的区别</li>
+<li>AOP为什么叫做切面编程</li>
+</ul>
+<h1 id="Spring-IOC-原理"><a href="#Spring-IOC-原理" class="headerlink" title="Spring IOC 原理"></a>Spring IOC 原理</h1><h2 id="1-1-IoC思想"><a href="#1-1-IoC思想" class="headerlink" title="1.1 IoC思想"></a>1.1 IoC思想</h2><p> <strong>IoC （Inversion of control ）控制反转/反转控制。</strong>它是一种设计思想不是一个技术实现。描述的是：Java 开发领域对象的创建以及管理的问题。主要的逻辑在于不通过new关键字来创建对象，而是通过IoC容器（Spring框架）来帮助我们实例化对象。当我们需要对象时，直接从IoC容器中获取（控制方由开发者转为框架，IoC容器进行自动控制），像是我们主观上失去了创建和管理对象的权利，但也不用再去考虑对象的创建和管理一系列问题。</p>
+        
+      
+         <!-- 添加版权声明 -->
+    
+    
+    <div class="declare" hidden="hidden"></div>
+    
+        <!-- 添加版权声明 -->
+  
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Spring</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/08/24/%E3%80%90Spring%E3%80%91IoC%E5%8F%8AAOP%E5%8E%9F%E7%90%86(1)%E6%A6%82%E5%BF%B5%E5%8F%8A%E7%89%B9%E7%82%B9/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-【Redis】常用五大数据类型" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -733,393 +1076,6 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-【剑指offer】把字符串转换成整数" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/08/09/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E6%8A%8A%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BD%AC%E6%8D%A2%E6%88%90%E6%95%B4%E6%95%B0/">【剑指offer】把字符串转换成整数</a>
-    </h1>
-  
-
-        
-        
-<a href="/2020/08/09/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E6%8A%8A%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BD%AC%E6%8D%A2%E6%88%90%E6%95%B4%E6%95%B0/" class="archive-article-date">
-  	<time datetime="2020-08-09T01:30:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>写一个函数 StrToInt，实现把字符串转换成整数这个功能。不能使用 atoi 或者其他类似的库函数。</p>
-<ol>
-<li>首先，该函数会根据需要丢弃无用的开头空格字符，直到寻找到第一个非空格的字符为止。</li>
-<li>当我们寻找到的第一个非空字符为正或者负号时，则将该符号与之后面尽可能多的连续数字组合起来，作为该整数的正负号；假如第一个非空字符是数字，则直接将其与之后连续的数字字符组合起来，形成整数。</li>
-<li>该字符串除了有效的整数部分之后也可能会存在多余的字符，这些字符可以被忽略，它们对于函数不应该造成影响。</li>
-</ol>
-<p>注意：假如该字符串中的第一个非空格字符不是一个有效整数字符、字符串为空或字符串仅包含空白字符时，则你的函数不需要进行转换。在任何情况下，若函数不能进行有效的转换时，请返回 0。</p>
-<blockquote>
-<p>LeetCode链接：<a href="https://leetcode-cn.com/problems/ba-zi-fu-chuan-zhuan-huan-cheng-zheng-shu-lcof/" target="_blank" rel="noopener">把字符串转换成整数</a></p>
-</blockquote>
-        
-      
-         <!-- 添加版权声明 -->
-    
-    
-    <div class="declare" hidden="hidden"></div>
-    
-        <!-- 添加版权声明 -->
-  
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">字符串</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法&数据结构</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">剑指offer</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/08/09/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E6%8A%8A%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BD%AC%E6%8D%A2%E6%88%90%E6%95%B4%E6%95%B0/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-【剑指offer】构建乘积数组" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/08/09/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E6%9E%84%E5%BB%BA%E4%B9%98%E7%A7%AF%E6%95%B0%E7%BB%84/">【剑指offer】构建乘积数组</a>
-    </h1>
-  
-
-        
-        
-<a href="/2020/08/09/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E6%9E%84%E5%BB%BA%E4%B9%98%E7%A7%AF%E6%95%B0%E7%BB%84/" class="archive-article-date">
-  	<time datetime="2020-08-09T01:30:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定一个数组 A[0,1,…,n-1]，请构建一个数组 B[0,1,…,n-1]，其中 B 中的元素 B[i]=A[0]×A[1]×…×A[i-1]×A[i+1]×…×A[n-1]。不能使用除法。</p>
-<ol>
-<li>给定数组int[] a</li>
-<li>输出数组b[] （ 每个元素都是n-1个数的乘积除以下标i ）</li>
-<li>示例 </li>
-</ol>
-<blockquote>
-<p>输入: [1,2,3,4,5]<br>输出: [120,60,40,30,24]</p>
-</blockquote>
-<blockquote>
-<p>LeetCode链接：<a href="https://leetcode-cn.com/problems/gou-jian-cheng-ji-shu-zu-lcof/" target="_blank" rel="noopener">构建乘积数组</a></p>
-</blockquote>
-        
-      
-         <!-- 添加版权声明 -->
-    
-    
-    <div class="declare" hidden="hidden"></div>
-    
-        <!-- 添加版权声明 -->
-  
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法&数据结构</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">剑指offer</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/08/09/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E6%9E%84%E5%BB%BA%E4%B9%98%E7%A7%AF%E6%95%B0%E7%BB%84/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-【剑指offer】不用加减乘除做加法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/08/08/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E4%B8%8D%E7%94%A8%E5%8A%A0%E5%87%8F%E4%B9%98%E9%99%A4%E5%81%9A%E5%8A%A0%E6%B3%95/">【剑指offer】不用加减乘除做加法</a>
-    </h1>
-  
-
-        
-        
-<a href="/2020/08/08/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E4%B8%8D%E7%94%A8%E5%8A%A0%E5%87%8F%E4%B9%98%E9%99%A4%E5%81%9A%E5%8A%A0%E6%B3%95/" class="archive-article-date">
-  	<time datetime="2020-08-08T07:16:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>写一个函数，求两个整数之和，要求在函数体内不得使用 “+”、“-”、“*”、“/” 四则运算符号。</p>
-<ol>
-<li>给定两个int数，a b</li>
-<li>输出a+b</li>
-</ol>
-<blockquote>
-<p>LeetCode原题链接： <a href="https://leetcode-cn.com/problems/bu-yong-jia-jian-cheng-chu-zuo-jia-fa-lcof/" target="_blank" rel="noopener">不用加减乘除做加法</a></p>
-</blockquote>
-<h2 id="思路方法"><a href="#思路方法" class="headerlink" title="思路方法"></a>思路方法</h2><ul>
-<li>排除四则运算，还有位运算可以使用</li>
-<li>位运算可通过两数先求异或  →  利用与运算后左移一位实现进位操作  →  循环将异或结果与进位相加</li>
-<li>循环的出口为再无进位，即进位数为0时退出</li>
-</ul>
-        
-      
-         <!-- 添加版权声明 -->
-    
-    
-    <div class="declare" hidden="hidden"></div>
-    
-        <!-- 添加版权声明 -->
-  
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法&数据结构</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">剑指offer</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/08/08/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E4%B8%8D%E7%94%A8%E5%8A%A0%E5%87%8F%E4%B9%98%E9%99%A4%E5%81%9A%E5%8A%A0%E6%B3%95/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-【剑指offer】求1-2-3-n" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/08/08/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E6%B1%821-2-3-n/">【剑指offer】求1+2+3+...+n</a>
-    </h1>
-  
-
-        
-        
-<a href="/2020/08/08/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E6%B1%821-2-3-n/" class="archive-article-date">
-  	<time datetime="2020-08-08T03:30:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>求 <code>1+2+...+n</code> ，要求不能使用乘除法、for、while、if、else、switch、case等关键字及条件判断语句（A?B:C）。</p>
-<ol>
-<li>给定int n</li>
-<li>输出1+2+…+n</li>
-</ol>
-<blockquote>
-<p>LeetCode原题链接： <a href="https://leetcode-cn.com/problems/qiu-12n-lcof/" target="_blank" rel="noopener">求1+2+…+n</a></p>
-</blockquote>
-<h2 id="思路方法"><a href="#思路方法" class="headerlink" title="思路方法"></a>思路方法</h2><ul>
-<li>在java中条件判断有以下性质：在判断 <code>x &amp;&amp; y</code>时，如<code>x</code>为false，<code>y</code>则不会执行。</li>
-<li>利用该性质，将<code>x</code>作为if的判断语句，<code>y</code>作为判断成立时执行的语句即可</li>
-</ul>
-        
-      
-         <!-- 添加版权声明 -->
-    
-    
-    <div class="declare" hidden="hidden"></div>
-    
-        <!-- 添加版权声明 -->
-  
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法&数据结构</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">剑指offer</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/08/08/%E3%80%90%E5%89%91%E6%8C%87offer%E3%80%91%E6%B1%821-2-3-n/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
@@ -1237,18 +1193,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">介绍</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">博客使用</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Java基础</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">java基础</a>
               </li>
              
@@ -1257,11 +1201,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">介绍</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Java基础</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">JVM</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Redis</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Spring</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Java并发</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1281,7 +1241,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">算法&amp;数据结构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">二叉树</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">博客使用</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1289,15 +1257,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">算法&amp;数据结构</a>
+                <a href="javascript:void(0)" class="js-tag color5">动态规划</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">栈</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">动态规划</a>
               </li>
              
               <li class="article-tag-list-item">
