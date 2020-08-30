@@ -17,7 +17,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://passionzz.cn/2020/08/29/%E3%80%90Redis%E3%80%91%E6%8C%81%E4%B9%85%E5%8C%96-AOF/1.png">
 <meta property="article:published_time" content="2020-08-29T08:01:37.000Z">
-<meta property="article:modified_time" content="2020-08-29T08:32:23.796Z">
+<meta property="article:modified_time" content="2020-08-29T08:34:39.767Z">
 <meta property="article:author" content="PassionZz&#x2F;ZYX">
 <meta property="article:tag" content="Redis">
 <meta name="twitter:card" content="summary">
@@ -210,6 +210,8 @@ var _hmt = _hmt || [];
       
         <h1 id="AOF（append-only-file）简介"><a href="#AOF（append-only-file）简介" class="headerlink" title="AOF（append only file）简介"></a>AOF（append only file）简介</h1><p>以日志的形式来记录每个写操作，将Redis执行过的所有写指令记录下来（读操作不记录），只许追加文件但不可以改写文件，redis启动之初会读取该文件重新构建数据，换言之，redis重启的话根据日志文件的内容将写指令从前到后执行一次已完成数据的恢复工作。</p>
 <p>简单地说，Redis的持久化方式之一RDB是通过保存数据库中的键值对来记录数据库的状态。而另一种持久化方式 AOF 则是通过<strong>保存Redis服务器所执行的写命令</strong>来记录数据库状态。</p>
+<a id="more"></a>
+
 <h1 id="AOF配置"><a href="#AOF配置" class="headerlink" title="AOF配置"></a>AOF配置</h1><p>在redis配置文件.conf中APPEND ONLY MODE标记下，默认配置如下：</p>
 <p><img src="/2020/08/29/%E3%80%90Redis%E3%80%91%E6%8C%81%E4%B9%85%E5%8C%96-AOF/1.png" alt></p>
 <ul>
@@ -246,6 +248,14 @@ var _hmt = _hmt || [];
 </ul>
 <h2 id="AOF和RDB如何权衡"><a href="#AOF和RDB如何权衡" class="headerlink" title="AOF和RDB如何权衡"></a>AOF和RDB如何权衡</h2><p>如果可以忍受一小段时间内数据的丢失，毫无疑问使用 RDB 是最好的，定时生成 RDB 快照（snapshot）非常便于进行数据库备份， 并且 RDB 恢复数据集的速度也要比 AOF 恢复的速度要快，而且使用 RDB 还可以避免 AOF 一些隐藏的 bug；否则就使用 AOF 重写。</p>
 <p>但是一般情况下建议不要单独使用某一种持久化机制，而是应该两种一起用，在这种情况下,当redis重启的时候会<strong>优先载入AOF文件</strong>来恢复原始的数据，因为在通常情况下AOF文件保存的数据集要比RDB文件保存的数据集要完整。Redis后期官方可能都有将两种持久化方式整合为一种持久化模型。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><p><a href="https://www.cnblogs.com/ysocean/p/9114267.html" target="_blank" rel="noopener">Redis详解（七）—— AOF 持久化</a></p>
+</li>
+<li><p><a href="https://blog.csdn.net/weixin_39040059/article/details/79120444" target="_blank" rel="noopener">谈谈Redis持久化（下）——AOF(Append Only File)</a></p>
+</li>
+<li><p>尚硅谷@周阳Redis教程</p>
+</li>
+</ul>
 
       
          <!-- 添加版权声明 -->
@@ -352,6 +362,15 @@ var _hmt = _hmt || [];
   
 <nav id="article-nav">
   
+    <a href="/2020/08/30/%E3%80%90Java%E9%9B%86%E5%90%88%E3%80%91Map/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          【Java集合】Map集合
+        
+      </div>
+    </a>
+  
   
     <a href="/2020/08/28/%E3%80%90Java%E9%9B%86%E5%90%88%E3%80%91Set%E9%9B%86%E5%90%88/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-title">【Java集合】Set集合</div>
@@ -381,7 +400,7 @@ var _hmt = _hmt || [];
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#AOF（append-only-file）简介"><span class="toc-number">1.</span> <span class="toc-text">AOF（append only file）简介</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#AOF配置"><span class="toc-number">2.</span> <span class="toc-text">AOF配置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#AOF相关操作"><span class="toc-number">3.</span> <span class="toc-text">AOF相关操作</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-启动"><span class="toc-number">3.1.</span> <span class="toc-text">1. 启动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-文件正常恢复"><span class="toc-number">3.2.</span> <span class="toc-text">2. 文件正常恢复</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-文件异常恢复"><span class="toc-number">3.3.</span> <span class="toc-text">3. 文件异常恢复</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#AOF重写（rewrite）"><span class="toc-number">4.</span> <span class="toc-text">AOF重写（rewrite）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-重写机制原理"><span class="toc-number">4.1.</span> <span class="toc-text">1. 重写机制原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-重写触发条件"><span class="toc-number">4.2.</span> <span class="toc-text">2. 重写触发条件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#AOF优劣势"><span class="toc-number">5.</span> <span class="toc-text">AOF优劣势</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-优势"><span class="toc-number">5.1.</span> <span class="toc-text">1. 优势</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-劣势"><span class="toc-number">5.2.</span> <span class="toc-text">2. 劣势</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AOF和RDB如何权衡"><span class="toc-number">5.3.</span> <span class="toc-text">AOF和RDB如何权衡</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#AOF（append-only-file）简介"><span class="toc-number">1.</span> <span class="toc-text">AOF（append only file）简介</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#AOF配置"><span class="toc-number">2.</span> <span class="toc-text">AOF配置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#AOF相关操作"><span class="toc-number">3.</span> <span class="toc-text">AOF相关操作</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-启动"><span class="toc-number">3.1.</span> <span class="toc-text">1. 启动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-文件正常恢复"><span class="toc-number">3.2.</span> <span class="toc-text">2. 文件正常恢复</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-文件异常恢复"><span class="toc-number">3.3.</span> <span class="toc-text">3. 文件异常恢复</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#AOF重写（rewrite）"><span class="toc-number">4.</span> <span class="toc-text">AOF重写（rewrite）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-重写机制原理"><span class="toc-number">4.1.</span> <span class="toc-text">1. 重写机制原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-重写触发条件"><span class="toc-number">4.2.</span> <span class="toc-text">2. 重写触发条件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#AOF优劣势"><span class="toc-number">5.</span> <span class="toc-text">AOF优劣势</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-优势"><span class="toc-number">5.1.</span> <span class="toc-text">1. 优势</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-劣势"><span class="toc-number">5.2.</span> <span class="toc-text">2. 劣势</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AOF和RDB如何权衡"><span class="toc-number">5.3.</span> <span class="toc-text">AOF和RDB如何权衡</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考"><span class="toc-number">6.</span> <span class="toc-text">参考</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -517,10 +536,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">博客使用</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Java基础</a>
               </li>
              
@@ -541,11 +556,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Java多线程</a>
+                <a href="javascript:void(0)" class="js-tag color2">Java集合</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Java集合</a>
+                <a href="javascript:void(0)" class="js-tag color2">JVM虚拟机</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Java多线程</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -554,10 +573,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Spring</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">JVM虚拟机</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -581,11 +596,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">栈</a>
+                <a href="javascript:void(0)" class="js-tag color5">动态规划</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">动态规划</a>
+                <a href="javascript:void(0)" class="js-tag color2">栈</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -593,11 +608,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">回溯法</a>
+                <a href="javascript:void(0)" class="js-tag color4">哈希表</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">哈希表</a>
+                <a href="javascript:void(0)" class="js-tag color4">回溯法</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -606,6 +621,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">博客使用</a>
               </li>
             
             <div class="clearfix"></div>
