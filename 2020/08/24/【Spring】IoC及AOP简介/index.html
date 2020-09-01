@@ -6,17 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://passionzz.cn">
-  <title>【Spring】IoC及AOP原理(1)概念及特点 | 翔仔年轻有力量</title>
+  <title>【Spring】IoC及AOP简介 | 翔仔年轻有力量</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="常见面试题引入 Spring IoC的初始化过程 IoC原理 如何实现一个IoC容器 谈谈对于Spring IoC和 AOP的理解 IoC和AOP各解决了什么问题 IoC和DI的区别 AOP为什么叫做切面编程  Spring IOC 原理1.1 IoC思想 IoC （Inversion of control ）控制反转&#x2F;反转控制。它是一种设计思想不是一个技术实现。描述的是：Java 开发领域对象的">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【Spring】IoC及AOP原理(1)概念及特点">
-<meta property="og:url" content="https://passionzz.cn/2020/08/24/%E3%80%90Spring%E3%80%91IoC%E5%8F%8AAOP%E5%8E%9F%E7%90%86(1)%E6%A6%82%E5%BF%B5%E5%8F%8A%E7%89%B9%E7%82%B9/index.html">
+<meta property="og:title" content="【Spring】IoC及AOP简介">
+<meta property="og:url" content="https://passionzz.cn/2020/08/24/%E3%80%90Spring%E3%80%91IoC%E5%8F%8AAOP%E7%AE%80%E4%BB%8B/index.html">
 <meta property="og:site_name" content="翔仔年轻有力量">
 <meta property="og:description" content="常见面试题引入 Spring IoC的初始化过程 IoC原理 如何实现一个IoC容器 谈谈对于Spring IoC和 AOP的理解 IoC和AOP各解决了什么问题 IoC和DI的区别 AOP为什么叫做切面编程  Spring IOC 原理1.1 IoC思想 IoC （Inversion of control ）控制反转&#x2F;反转控制。它是一种设计思想不是一个技术实现。描述的是：Java 开发领域对象的">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-08-24T09:16:35.000Z">
-<meta property="article:modified_time" content="2020-08-27T12:03:00.754Z">
+<meta property="article:modified_time" content="2020-08-31T07:06:41.193Z">
 <meta property="article:author" content="PassionZz&#x2F;ZYX">
 <meta property="article:tag" content="Spring">
 <meta name="twitter:card" content="summary">
@@ -180,14 +180,14 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-【Spring】IoC及AOP原理(1)概念及特点" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-【Spring】IoC及AOP简介" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      【Spring】IoC及AOP原理(1)概念及特点
+      【Spring】IoC及AOP简介
     </h1>
   
 
@@ -198,7 +198,7 @@ var _hmt = _hmt || [];
 		  <i class="icon-smile icon"></i> 阅读数：<span id="busuanzi_value_page_pv"></span>次
 	</span>
 
-<a href="/2020/08/24/%E3%80%90Spring%E3%80%91IoC%E5%8F%8AAOP%E5%8E%9F%E7%90%86(1)%E6%A6%82%E5%BF%B5%E5%8F%8A%E7%89%B9%E7%82%B9/" class="archive-article-date">
+<a href="/2020/08/24/%E3%80%90Spring%E3%80%91IoC%E5%8F%8AAOP%E7%AE%80%E4%BB%8B/" class="archive-article-date">
   	<time datetime="2020-08-24T09:16:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-24</time>
 </a>
         
@@ -225,6 +225,21 @@ var _hmt = _hmt || [];
 <li>资源更容易管理；比如你用 Spring 容器提供的话很容易就可以实现一个单例。</li>
 </ul>
 <h1 id="Spring-AOP原理"><a href="#Spring-AOP原理" class="headerlink" title="Spring AOP原理"></a>Spring AOP原理</h1><h2 id="2-1-概念"><a href="#2-1-概念" class="headerlink" title="2.1 概念"></a>2.1 概念</h2><p>AOP(Aspect-Oriented Programming), 即 <strong>面向切面编程</strong>, 它与 OOP( Object-Oriented Programming, 面向对象编程) 相辅相成, 提供了与 OOP 不同的抽象软件结构的视角.在 OOP 中, 我们以类(class)作为我们的基本单元, 而 AOP 中的基本单元是 <strong>Aspect(切面)</strong></p>
+<p>“横切”的技术，剖解开封装的对象内部，并将那些影响了多个类的公共行为封装到一个可重用模块，并将其命名为”Aspect”，即切面。所谓”切面”，简单说就是那些与业务无关，却为业务模块所共同调用的逻辑或责任封装起来，便于减少系统的重复代码，降低模块之间的耦合度，并有利于未来的可操作性和可维护性。<br>使用”横切”技术，AOP把软件系统分为两个部分：核心关注点和横切关注点。业务处理的主要流程是核心关注点，与之关系不大的部分是横切关注点。横切关注点的一个特点是，他们经常发生在核心关注点的多处，而各处基本相似，比如权限认证、日志、事物。AOP的作用在于分离系统中的各种关注点，将核心关注点和横切关注点分离开来。<br>AOP主要应用场景有：</p>
+<ol>
+<li>Authentication 权限</li>
+<li>Caching 缓存</li>
+<li>Context passing 内容传递</li>
+<li>Error handling 错误处理</li>
+<li>Lazy loading 懒加载</li>
+<li>Debugging 调试</li>
+<li>logging, tracing, profiling and monitoring 记录跟踪 优化 校准</li>
+<li>Performance optimization 性能优化</li>
+<li>Persistence 持久化</li>
+<li>Resource pooling 资源池</li>
+<li>Synchronization 同步</li>
+<li>Transactions 事务</li>
+</ol>
 
       
          <!-- 添加版权声明 -->
@@ -237,7 +252,7 @@ var _hmt = _hmt || [];
       
       <br>
       <strong>本文链接：</strong>
-      <a href="https://passionzz.cn/2020/08/24/【Spring】IoC及AOP原理(1)概念及特点/" title="【Spring】IoC及AOP原理(1)概念及特点" target="_blank">https://passionzz.cn/2020/08/24/【Spring】IoC及AOP原理(1)概念及特点/</a>
+      <a href="https://passionzz.cn/2020/08/24/【Spring】IoC及AOP简介/" title="【Spring】IoC及AOP简介" target="_blank">https://passionzz.cn/2020/08/24/【Spring】IoC及AOP简介/</a>
       <br>
       <strong>版权声明：</strong>
       本作品采用
@@ -317,7 +332,7 @@ var _hmt = _hmt || [];
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://passionzz.cn//2020/08/24/%E3%80%90Spring%E3%80%91IoC%E5%8F%8AAOP%E5%8E%9F%E7%90%86(1)%E6%A6%82%E5%BF%B5%E5%8F%8A%E7%89%B9%E7%82%B9/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://passionzz.cn//2020/08/24/%E3%80%90Spring%E3%80%91IoC%E5%8F%8AAOP%E7%AE%80%E4%BB%8B/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -509,6 +524,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Java基础</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">java基础</a>
               </li>
              
@@ -517,19 +536,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Java基础</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">JVM</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Java并发</a>
+                <a href="javascript:void(0)" class="js-tag color2">JVM虚拟机</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">JVM虚拟机</a>
+                <a href="javascript:void(0)" class="js-tag color2">Java并发</a>
               </li>
              
               <li class="article-tag-list-item">
