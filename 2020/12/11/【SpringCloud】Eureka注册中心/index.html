@@ -6,20 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://passionzz.cn">
-  <title>【Ribbon】轮询RoundRobinRule源码解析 | 翔仔年轻有力量</title>
+  <title>【SpringCloud】Eureka注册中心简介及使用 | 翔仔年轻有力量</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Ribbon负载均衡默认策略 - 轮询简介轮询选择，轮询index，选择index对应位置的server index 的计算：rest接口第几次请求数 % 服务器集群总数量 &#x3D; 实际调用服务器位置下标。每次服务重启后rest接口计数从1开始 RoundRobinRule源码 域定义及构造器：  12345678910111213141516171819public class RoundRobin">
+  <meta name="description" content="Eureka注册中心简介及使用一、服务治理微服务架构中，各个服务之间相对独立，有着各自的业务角色并相互调用。最常见的即是业务角色关系便是生产者-消费者关系。由生产者提供服务或者说业务的实现，而消费者由前端调用或是接收指定URI的请求访问生产者服务，从而完成业务再将结果返回客户端。在这个过程中，生产者与消费者之间的远程调用若没有使用额外组件进行管理，就只能单一的、点对点地使用URI访问，灵活性较差。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【Ribbon】轮询RoundRobinRule源码解析">
-<meta property="og:url" content="https://passionzz.cn/2020/12/07/%E3%80%90Ribbon%E3%80%91%E8%BD%AE%E8%AF%A2RoundRobinRule%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/index.html">
+<meta property="og:title" content="【SpringCloud】Eureka注册中心简介及使用">
+<meta property="og:url" content="https://passionzz.cn/2020/12/11/%E3%80%90SpringCloud%E3%80%91Eureka%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/index.html">
 <meta property="og:site_name" content="翔仔年轻有力量">
-<meta property="og:description" content="Ribbon负载均衡默认策略 - 轮询简介轮询选择，轮询index，选择index对应位置的server index 的计算：rest接口第几次请求数 % 服务器集群总数量 &#x3D; 实际调用服务器位置下标。每次服务重启后rest接口计数从1开始 RoundRobinRule源码 域定义及构造器：  12345678910111213141516171819public class RoundRobin">
+<meta property="og:description" content="Eureka注册中心简介及使用一、服务治理微服务架构中，各个服务之间相对独立，有着各自的业务角色并相互调用。最常见的即是业务角色关系便是生产者-消费者关系。由生产者提供服务或者说业务的实现，而消费者由前端调用或是接收指定URI的请求访问生产者服务，从而完成业务再将结果返回客户端。在这个过程中，生产者与消费者之间的远程调用若没有使用额外组件进行管理，就只能单一的、点对点地使用URI访问，灵活性较差。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-12-07T13:58:39.000Z">
-<meta property="article:modified_time" content="2020-12-07T14:35:19.106Z">
+<meta property="og:image" content="https://passionzz.cn/2020/12/11/%E3%80%90SpringCloud%E3%80%91Eureka%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/1.png">
+<meta property="article:published_time" content="2020-12-11T14:23:53.000Z">
+<meta property="article:modified_time" content="2020-12-11T16:15:49.571Z">
 <meta property="article:author" content="PassionZz&#x2F;ZYX">
 <meta property="article:tag" content="SpringCloud">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://passionzz.cn/2020/12/11/%E3%80%90SpringCloud%E3%80%91Eureka%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/1.png">
   
     <link rel="alternative" href="/atom.xml" title="翔仔年轻有力量" type="application/atom+xml">
   
@@ -180,14 +182,14 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-【Ribbon】轮询RoundRobinRule源码解析" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-【SpringCloud】Eureka注册中心" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      【Ribbon】轮询RoundRobinRule源码解析
+      【SpringCloud】Eureka注册中心简介及使用
     </h1>
   
 
@@ -198,37 +200,88 @@ var _hmt = _hmt || [];
 		  <i class="icon-smile icon"></i> 阅读数：<span id="busuanzi_value_page_pv"></span>次
 	</span>
 
-<a href="/2020/12/07/%E3%80%90Ribbon%E3%80%91%E8%BD%AE%E8%AF%A2RoundRobinRule%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" class="archive-article-date">
-  	<time datetime="2020-12-07T13:58:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-12-07</time>
+<a href="/2020/12/11/%E3%80%90SpringCloud%E3%80%91Eureka%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/" class="archive-article-date">
+  	<time datetime="2020-12-11T14:23:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-12-11</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="Ribbon负载均衡默认策略-轮询简介"><a href="#Ribbon负载均衡默认策略-轮询简介" class="headerlink" title="Ribbon负载均衡默认策略 - 轮询简介"></a>Ribbon负载均衡默认策略 - 轮询简介</h1><p>轮询选择，轮询index，选择index对应位置的server</p>
-<p>index 的计算：rest接口第几次请求数 % 服务器集群总数量 = 实际调用服务器位置下标。每次服务重启后rest接口计数从1开始</p>
-<h1 id="RoundRobinRule源码"><a href="#RoundRobinRule源码" class="headerlink" title="RoundRobinRule源码"></a>RoundRobinRule源码</h1><ol>
-<li>域定义及构造器：</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RoundRobinRule</span> <span class="keyword">extends</span> <span class="title">AbstractLoadBalancerRule</span> </span>&#123;</span><br><span class="line">	<span class="comment">//AtomicInteger原子整型类，用于计算对应请求调用服务器的下标</span></span><br><span class="line">    <span class="keyword">private</span> AtomicInteger nextServerCyclicCounter;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">boolean</span> AVAILABLE_ONLY_SERVERS = <span class="keyword">true</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">boolean</span> ALL_SERVERS = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Logger log = LoggerFactory.getLogger(RoundRobinRule<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">RoundRobinRule</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//初始化为0</span></span><br><span class="line">        nextServerCyclicCounter = <span class="keyword">new</span> AtomicInteger(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">RoundRobinRule</span><span class="params">(ILoadBalancer lb)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>();</span><br><span class="line">        setLoadBalancer(lb);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <h1 id="Eureka注册中心简介及使用"><a href="#Eureka注册中心简介及使用" class="headerlink" title="Eureka注册中心简介及使用"></a>Eureka注册中心简介及使用</h1><h2 id="一、服务治理"><a href="#一、服务治理" class="headerlink" title="一、服务治理"></a>一、服务治理</h2><p>微服务架构中，各个服务之间相对独立，有着各自的业务角色并相互调用。最常见的即是业务角色关系便是生产者-消费者关系。由生产者提供服务或者说业务的实现，而消费者由前端调用或是接收指定URI的请求访问生产者服务，从而完成业务再将结果返回客户端。在这个过程中，生产者与消费者之间的远程调用若没有使用额外组件进行管理，就只能单一的、点对点地使用URI访问，灵活性较差。</p>
+<p>再者，微服务架构下，服务数量较多而每个服务之间的依赖关系复杂、管理难度大。因而需要服务治理进行服务的管理，服务与服务之间依赖关系的统合，实现服务的rpc远程调用。服务治理亦必须要有一个注册中心，当需要调用某个服务的时候，就去注册中心中拉取服务列表，查看所需服务的实际服务通讯地址（同个服务若为集群形式，配备的负载均衡策略能够实现具体调用）</p>
+<p>注册中心的好处在于无需知道有多少提供方，仅需关注注册中心即可。继而降低了服务之间的耦合度。</p>
+<a id="more"></a>
 
-<ol start="2">
-<li><p>负载均衡核心方法：<code>choose()</code>方法: 返回的server对象即为选定使用的调用服务器</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Server <span class="title">choose</span><span class="params">(ILoadBalancer lb, Object key)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (lb == <span class="keyword">null</span>) &#123;</span><br><span class="line">            log.warn(<span class="string">"no load balancer"</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        Server server = <span class="keyword">null</span>;<span class="comment">//调用服务器初始化为null</span></span><br><span class="line">        <span class="keyword">int</span> count = <span class="number">0</span>;<span class="comment">//计数初始化为0</span></span><br><span class="line">    	<span class="comment">//还没选到执行的server，并且选择的次数没超过10次，进行选择server</span></span><br><span class="line">        <span class="keyword">while</span> (server == <span class="keyword">null</span> &amp;&amp; count++ &lt; <span class="number">10</span>) &#123;</span><br><span class="line">            <span class="comment">//lb.getReachableServers();返回所有可用的服务实例，即状态为up的实例</span></span><br><span class="line">            List&lt;Server&gt; reachableServers = lb.getReachableServers();</span><br><span class="line">            <span class="comment">//lb.getAllServers();返回请求的服务下所有服务实例</span></span><br><span class="line">            List&lt;Server&gt; allServers = lb.getAllServers();</span><br><span class="line">            <span class="comment">//二者的实例数量</span></span><br><span class="line">            <span class="keyword">int</span> upCount = reachableServers.size();</span><br><span class="line">            <span class="keyword">int</span> serverCount = allServers.size();</span><br><span class="line">			</span><br><span class="line">            <span class="comment">//若服务实例不存在，或无可用实例。返回提示日志</span></span><br><span class="line">            <span class="keyword">if</span> ((upCount == <span class="number">0</span>) || (serverCount == <span class="number">0</span>)) &#123;</span><br><span class="line">                log.warn(<span class="string">"No up servers available from load balancer: "</span> + lb);</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">            &#125;</span><br><span class="line">			<span class="comment">//incrementAndGetModulo(serverCount)方法直接计算返回了调用服务器server的下标</span></span><br><span class="line">            <span class="keyword">int</span> nextServerIndex = incrementAndGetModulo(serverCount);</span><br><span class="line">            <span class="comment">//获取到下标为nextServerIndex的服务器server</span></span><br><span class="line">            server = allServers.get(nextServerIndex);</span><br><span class="line">			</span><br><span class="line">            <span class="comment">//若无法获取到server，进行线程让步进入下一次循环。</span></span><br><span class="line">            <span class="keyword">if</span> (server == <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="comment">/* Transient. */</span></span><br><span class="line">                Thread.yield();</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">			<span class="comment">//当选取的server存活并可用，则返回服务调用方进一步操作</span></span><br><span class="line">            <span class="keyword">if</span> (server.isAlive() &amp;&amp; (server.isReadyToServe())) &#123;</span><br><span class="line">                <span class="keyword">return</span> (server);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Next.为下一次准备</span></span><br><span class="line">            server = <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">		</span><br><span class="line">    	<span class="comment">//选择超10次，无法获取到server，打印日志</span></span><br><span class="line">        <span class="keyword">if</span> (count &gt;= <span class="number">10</span>) &#123;</span><br><span class="line">            log.warn(<span class="string">"No available alive servers after 10 tries from load balancer: "</span></span><br><span class="line">                    + lb);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> server;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="二、注册中心的实现"><a href="#二、注册中心的实现" class="headerlink" title="二、注册中心的实现"></a>二、注册中心的实现</h2><p>Spring Cloud Eureka 是 Spring Cloud NetFlix 微服务套件的一部分，基于NetFlix Eureka 做了二次封装，主要负责实现微服务架构中的服务治理功能。另外，阿里开源的Dubbo框架也是针对服务治理的，其中的几种注册中心有基于ZooKeeper、基于Redis等等，用得最多的还是ZooKeeper方式。</p>
+<p>除了Eureka、Dubbo之外，还可以使用Consul、Etcd、直接使用ZooKeeper等来作为服务的注册中心。</p>
+<p>总的来说，Eureka比Zookeeper更适合作为注册中心，因为Eureka是基于AP原则构建的，而ZooKeeper是基于CP原则构建的。</p>
+<blockquote>
+<p>分布式系统领域的著名理论 - CAP理论中，一个<a href="https://baike.baidu.com/item/分布式系统/4905336" target="_blank" rel="noopener">分布式系统</a>中， Consistency（一致性）、 Availability（可用性）、Partition tolerance（分区容错性），这三种特性不能同时满足，最多同时满足两个。</p>
+<p>一致性（C）：在分布式系统中的所有数据备份，在同一时刻是否同样的值。（等同于所有节点访问同一份最新的数据副本）</p>
+<p>可用性（A）：在集群中一部分节点故障后，集群整体是否还能响应客户端的读写请求。（对数据更新具备高可用性）</p>
+<p>分区容忍性（P）：以实际效果而言，分区相当于对通信的时限要求。系统如果不能在时限内达成数据一致性，就意味着发生了分区的情况，必须就当前操作在C和A之间做出选择。</p>
+</blockquote>
+<p><img src="/2020/12/11/%E3%80%90SpringCloud%E3%80%91Eureka%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/1.png" alt></p>
+<h2 id="三、Eureka的使用"><a href="#三、Eureka的使用" class="headerlink" title="三、Eureka的使用"></a>三、Eureka的使用</h2><ol>
+<li><h6 id="Eureka的两个组件"><a href="#Eureka的两个组件" class="headerlink" title="Eureka的两个组件"></a>Eureka的两个组件</h6><p>Eureka采用CS的设计架构，Eureka Server 作为服务注册功能的服务器，它是服务注册中心。而系统中的其他微服务，使用Eureka客户端连接到Eureka Server并维持心跳连接。通过Eureka Server能够监控系统中各个微服务是否正常运行。</p>
+<p>Eureka Server:  提供服务注册服务，Eureka Client自行配置后将被注册进Eureka Server中。其中存储了所有可用服务节点的信息。</p>
+<p>Eureka Client：通过注册中心进行访问，并相互调用。</p>
+</li>
+<li><h6 id="Eureka在项目中引入"><a href="#Eureka在项目中引入" class="headerlink" title="Eureka在项目中引入"></a>Eureka在项目中引入</h6><p>Eureka Server:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">          &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">          &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-server&lt;/artifactId&gt;</span><br><span class="line">      &lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<p>Eureka Client:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">          &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">          &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-client&lt;/artifactId&gt;</span><br><span class="line">      &lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>yml配置</p>
+<p>Eureka Server：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">server:</span><br><span class="line">  port: <span class="number">7001</span></span><br><span class="line"></span><br><span class="line">eureka:</span><br><span class="line">  instance:</span><br><span class="line">    hostname: localhost  #eureka服务端的实例名称</span><br><span class="line">  client:</span><br><span class="line">    #false表示不向注册中心注册自己</span><br><span class="line">    register-with-eureka: <span class="keyword">false</span></span><br><span class="line">    #false表示自己端就是注册中心，职责就是维护服务实例，并不需要去检索服务</span><br><span class="line">    fetch-registry: <span class="keyword">false</span></span><br><span class="line">    service-url:</span><br><span class="line">      #设置与eurekaServer交互的地址查询服务和注册服务都需要依赖这个地址</span><br><span class="line">      defaultZone: http:<span class="comment">//$&#123;eureka.instance.hostname&#125;:$&#123;server.port&#125;/eureka/</span></span><br></pre></td></tr></table></figure>
+
+<p>Eureka Client:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">server:</span><br><span class="line">    port: <span class="number">80</span></span><br><span class="line">spring:</span><br><span class="line">  application:</span><br><span class="line">      name: cloud-order-service</span><br><span class="line"></span><br><span class="line">eureka:</span><br><span class="line">    client:</span><br><span class="line">        register-with-eureka: <span class="keyword">true</span></span><br><span class="line">        fetch-registry: <span class="keyword">true</span></span><br><span class="line">        service-url:</span><br><span class="line">            defaultZone: http:<span class="comment">//localhost:7001/eureka #本地单机注册中心</span></span><br></pre></td></tr></table></figure>
 
 
 
 </li>
 </ol>
-<ol start="3">
-<li><p>计算返回调用服务器server下标的关键方法：<code>incrementAndGetModulo(int modulo)</code></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//CAS操作加自旋锁</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">incrementAndGetModulo</span><span class="params">(<span class="keyword">int</span> modulo)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//死循环作自旋    </span></span><br><span class="line">    <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">        	<span class="comment">//获取value - CAS中对应旧的预期值expect A</span></span><br><span class="line">            <span class="keyword">int</span> current = nextServerCyclicCounter.get();</span><br><span class="line">            <span class="comment">//加1取余</span></span><br><span class="line">        	<span class="keyword">int</span> next = (current + <span class="number">1</span>) % modulo;</span><br><span class="line">        	<span class="comment">//进行CAS判断，保证上一步计算过程中，没有被其他线程或外部修改。若当前nextServerCyclicCounter与current值相同，则为true并将其设置为计算后的next。</span></span><br><span class="line">            <span class="keyword">if</span> (nextServerCyclicCounter.compareAndSet(current, next))</span><br><span class="line">                <span class="keyword">return</span> next;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
+<ol start="4">
+<li><p>Spring主启动类添加注释：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@EnableEurekaServer</span> <span class="comment">//表示此项目是eureka的服务注册中心</span></span><br><span class="line"><span class="meta">@EnableEurekaClient</span> <span class="comment">//作为Eureka Client</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>消费者与生产者之间的调用</p>
+<p>消费者需要调用接口时，使用服务别名去注册中心获取实际的RPC远程调用地址。消费者获得调用地址后，使用RestTemplate 调用URL，底层利用的HttpClient技术实现。</p>
+<p>消费者获得服务地址后会缓存到本地JVM，默认每间隔30s更新一次服务调用地址</p>
 <blockquote>
-<p>CAS : Conmpare And Swap是用于实现多线程同步的原子指令。CAS机制当中使用了3个基本操作数：内存地址V，旧的预期值A，要修改的新值B。更新一个变量的时候，只有当变量的预期值A和内存地址V当中的实际值相同时，才会将内存地址V对应的值修改为B</p>
-<p>自旋锁：是指当一个线程在获取锁的时候，如果锁已经被其它线程获取，那么该线程将循环等待，然后不断的判断锁是否能够被成功获取，直到获取到锁才会退出循环。</p>
+<p>RestTemplate 是Spring提供的用于访问REST服务的客户端，RestTemplate提供了多钟便携访问远程HTTP服务的方法。</p>
+<p>RestTemplate的使用需要使用ApplicationContextConfig配置类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ApplicationContextConfig</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="meta">@LoadBalanced</span> <span class="comment">//赋予RestTemplate负载均衡能力</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RestTemplate <span class="title">getRestTemplate</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> RestTemplate();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </blockquote>
+</li>
+</ol>
+<h2 id="四、Eureka高可用搭建"><a href="#四、Eureka高可用搭建" class="headerlink" title="四、Eureka高可用搭建"></a>四、Eureka高可用搭建</h2><p>注册中心Eureka Server集群搭建，实现负载均衡+故障容错。</p>
+<p>搭建步骤与单机版本类似，在yml配置文件中对应的eureka.client.service-url.defaultZone中指定多个节点的地址即可，多个地址用英文逗号隔开。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">server:</span><br><span class="line">    port: <span class="number">80</span></span><br><span class="line">spring:</span><br><span class="line">  application:</span><br><span class="line">      name: cloud-order-service</span><br><span class="line"></span><br><span class="line">eureka:</span><br><span class="line">    client:</span><br><span class="line">        register-with-eureka: <span class="keyword">true</span></span><br><span class="line">        fetch-registry: <span class="keyword">true</span></span><br><span class="line">        service-url:</span><br><span class="line">            defaultZone: http:<span class="comment">//eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka #集群版</span></span><br><span class="line">            #defaultZone: http://xx.xx.xx.xx:7001/eureka,http://47.111.21.126:7002/eureka #远程集群</span><br></pre></td></tr></table></figure>
+
+<h2 id="五、服务发现Discovery"><a href="#五、服务发现Discovery" class="headerlink" title="五、服务发现Discovery"></a>五、服务发现Discovery</h2><p>对于注册进eureka里面的微服务，可以通过服务发现来获得该服务的信息。</p>
+<p>在主启动类上添加注解<code>@EnableDiscoveryClient</code>,启用发现客户端。</p>
+<p>通过依赖注入后可以在业务代码中获取服务的相关信息，如服务名称，服务下级实例名称，URI等等。</p>
+<p>示例代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Resource</span></span><br><span class="line">   <span class="keyword">private</span> DiscoveryClient discoveryClient;	<span class="comment">//springframework的DiscoveryClient（不要导错包了）</span></span><br><span class="line">   </span><br><span class="line"></span><br><span class="line">   <span class="meta">@GetMapping</span>(<span class="string">"/payment/discovery"</span>)</span><br><span class="line">   <span class="function"><span class="keyword">public</span> Object <span class="title">discovery</span><span class="params">()</span></span>&#123;</span><br><span class="line">       <span class="comment">//获取服务列表的信息</span></span><br><span class="line">       List&lt;String&gt; services = discoveryClient.getServices();</span><br><span class="line">       <span class="keyword">for</span> (String element : services) &#123;</span><br><span class="line">           log.info(<span class="string">"*******element："</span> + element);</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       <span class="comment">//获取CLOUD-PAYMENT-SERVICE服务的所有具体实例</span></span><br><span class="line">       List&lt;ServiceInstance&gt; instances = discoveryClient.getInstances(<span class="string">"CLOUD-PAYMENT-SERVICE"</span>);</span><br><span class="line">       <span class="keyword">for</span> (ServiceInstance instance : instances) &#123;</span><br><span class="line">           <span class="comment">//getServiceId服务器id getHost主机名称 getPort端口号  getUri地址</span></span><br><span class="line">           log.info(instance.getServiceId() + <span class="string">"\t"</span> + instance.getHost() + <span class="string">"\t"</span> + instance.getPort() + <span class="string">"\t"</span> + instance.getUri());</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       <span class="keyword">return</span> <span class="keyword">this</span>.discoveryClient;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="六、Eureka自我保护"><a href="#六、Eureka自我保护" class="headerlink" title="六、Eureka自我保护"></a>六、Eureka自我保护</h2><ol>
+<li><p>简介：保护模式主要用于在一组客户端和Eureka Server 之间存在网络分区场景时使用。一旦进入保护模式，Eureka Server 将会尝试保护其服务的注册表中的信息，不再删除服务注册表中的数据。</p>
+</li>
+<li><p>为何使用自我保护机制：对Client实际可以正常运行，但因网络问题于Server断连的情况，需保证Client不被错删。</p>
+</li>
+<li><p>行为机制：</p>
+<blockquote>
+<p>Client默认定时向Server发送心跳包，90秒内没有收到心跳包是，则会直接删除服务实例。但若同时丢失大量服务则会进入自我保护机制，不剔除而是保留。</p>
+</blockquote>
+</li>
+<li><p>禁止自我保护：yml文件设置</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#  client</span></span><br><span class="line"><span class="comment">#  	...		server与client对齐</span></span><br><span class="line">  <span class="attr">server:</span></span><br><span class="line">    <span class="comment">#关闭自我保护，默认为true</span></span><br><span class="line">    <span class="attr">enable-self-preservation:</span> <span class="literal">false</span></span><br><span class="line">    <span class="comment">#心跳的间隔时间，单位毫秒</span></span><br><span class="line">    <span class="attr">eviction-interval-timer-in-ms:</span> <span class="number">2000</span></span><br><span class="line">    <span class="comment">#Eureka客户端向服务端发送心跳的时间间隔，单位秒（默认30秒）</span></span><br><span class="line">    <span class="attr">lease-renewal-interval-in-seconds:</span> <span class="number">1</span></span><br><span class="line">    <span class="comment">#Eureka服务端在收到最后一次心跳后等待的时间上限，单位秒（默认90秒），超时剔除服务</span></span><br><span class="line">    <span class="attr">lease-expiration-duration-in-seconds:</span> <span class="number">2</span></span><br></pre></td></tr></table></figure>
+
 </li>
 </ol>
 
@@ -306,7 +359,7 @@ var _hmt = _hmt || [];
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://passionzz.cn//2020/12/07/%E3%80%90Ribbon%E3%80%91%E8%BD%AE%E8%AF%A2RoundRobinRule%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://passionzz.cn//2020/12/11/%E3%80%90SpringCloud%E3%80%91Eureka%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -321,8 +374,8 @@ var _hmt = _hmt || [];
 <nav id="article-nav">
   
   
-    <a href="/2020/12/04/%E3%80%90%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E3%80%91%E5%88%9D%E5%A7%8B%E5%8C%96%E9%85%8D%E7%BD%AE/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">【云服务器】初始化防火墙配置</div>
+    <a href="/2020/12/07/%E3%80%90SpringCloud%E3%80%91%E8%BD%AE%E8%AF%A2RoundRobinRule%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">【SpringCloud】Ribbon-轮询RoundRobinRule源码解析</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -349,7 +402,7 @@ var _hmt = _hmt || [];
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Ribbon负载均衡默认策略-轮询简介"><span class="toc-number">1.</span> <span class="toc-text">Ribbon负载均衡默认策略 - 轮询简介</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#RoundRobinRule源码"><span class="toc-number">2.</span> <span class="toc-text">RoundRobinRule源码</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Eureka注册中心简介及使用"><span class="toc-number">1.</span> <span class="toc-text">Eureka注册中心简介及使用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、服务治理"><span class="toc-number">1.1.</span> <span class="toc-text">一、服务治理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、注册中心的实现"><span class="toc-number">1.2.</span> <span class="toc-text">二、注册中心的实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、Eureka的使用"><span class="toc-number">1.3.</span> <span class="toc-text">三、Eureka的使用</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#Eureka的两个组件"><span class="toc-number">1.3.0.0.0.1.</span> <span class="toc-text">Eureka的两个组件</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#Eureka在项目中引入"><span class="toc-number">1.3.0.0.0.2.</span> <span class="toc-text">Eureka在项目中引入</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四、Eureka高可用搭建"><span class="toc-number">1.4.</span> <span class="toc-text">四、Eureka高可用搭建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#五、服务发现Discovery"><span class="toc-number">1.5.</span> <span class="toc-text">五、服务发现Discovery</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#六、Eureka自我保护"><span class="toc-number">1.6.</span> <span class="toc-text">六、Eureka自我保护</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -481,19 +534,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">博客使用</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">介绍</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">java基础</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">字符串</a>
+                <a href="javascript:void(0)" class="js-tag color5">博客使用</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -505,15 +550,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">java基础</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">字符串</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Java并发</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">JVM虚拟机</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Java多线程</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Java并发</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -525,15 +578,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Spring</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">服务器配</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">SpringCloud</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Spring</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -557,15 +606,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">栈</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">动态规划</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">二分查找</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">栈</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -578,6 +627,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">队列</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">服务器配置</a>
               </li>
              
               <li class="article-tag-list-item">

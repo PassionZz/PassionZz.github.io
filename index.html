@@ -177,53 +177,31 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-【Ribbon】轮询RoundRobinRule源码解析" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-【SpringCloud】Eureka注册中心" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2020/12/07/%E3%80%90Ribbon%E3%80%91%E8%BD%AE%E8%AF%A2RoundRobinRule%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/">【Ribbon】轮询RoundRobinRule源码解析</a>
+      <a class="article-title" href="/2020/12/11/%E3%80%90SpringCloud%E3%80%91Eureka%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/">【SpringCloud】Eureka注册中心简介及使用</a>
     </h1>
   
 
         
         
-<a href="/2020/12/07/%E3%80%90Ribbon%E3%80%91%E8%BD%AE%E8%AF%A2RoundRobinRule%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" class="archive-article-date">
-  	<time datetime="2020-12-07T13:58:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-12-07</time>
+<a href="/2020/12/11/%E3%80%90SpringCloud%E3%80%91Eureka%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/" class="archive-article-date">
+  	<time datetime="2020-12-11T14:23:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-12-11</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="Ribbon负载均衡默认策略-轮询简介"><a href="#Ribbon负载均衡默认策略-轮询简介" class="headerlink" title="Ribbon负载均衡默认策略 - 轮询简介"></a>Ribbon负载均衡默认策略 - 轮询简介</h1><p>轮询选择，轮询index，选择index对应位置的server</p>
-<p>index 的计算：rest接口第几次请求数 % 服务器集群总数量 = 实际调用服务器位置下标。每次服务重启后rest接口计数从1开始</p>
-<h1 id="RoundRobinRule源码"><a href="#RoundRobinRule源码" class="headerlink" title="RoundRobinRule源码"></a>RoundRobinRule源码</h1><ol>
-<li>域定义及构造器：</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RoundRobinRule</span> <span class="keyword">extends</span> <span class="title">AbstractLoadBalancerRule</span> </span>&#123;</span><br><span class="line">	<span class="comment">//AtomicInteger原子整型类，用于计算对应请求调用服务器的下标</span></span><br><span class="line">    <span class="keyword">private</span> AtomicInteger nextServerCyclicCounter;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">boolean</span> AVAILABLE_ONLY_SERVERS = <span class="keyword">true</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">boolean</span> ALL_SERVERS = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Logger log = LoggerFactory.getLogger(RoundRobinRule<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">RoundRobinRule</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//初始化为0</span></span><br><span class="line">        nextServerCyclicCounter = <span class="keyword">new</span> AtomicInteger(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">RoundRobinRule</span><span class="params">(ILoadBalancer lb)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>();</span><br><span class="line">        setLoadBalancer(lb);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li><p>负载均衡核心方法：<code>choose()</code>方法: 返回的server对象即为选定使用的调用服务器</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Server <span class="title">choose</span><span class="params">(ILoadBalancer lb, Object key)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (lb == <span class="keyword">null</span>) &#123;</span><br><span class="line">            log.warn(<span class="string">"no load balancer"</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        Server server = <span class="keyword">null</span>;<span class="comment">//调用服务器初始化为null</span></span><br><span class="line">        <span class="keyword">int</span> count = <span class="number">0</span>;<span class="comment">//计数初始化为0</span></span><br><span class="line">    	<span class="comment">//还没选到执行的server，并且选择的次数没超过10次，进行选择server</span></span><br><span class="line">        <span class="keyword">while</span> (server == <span class="keyword">null</span> &amp;&amp; count++ &lt; <span class="number">10</span>) &#123;</span><br><span class="line">            <span class="comment">//lb.getReachableServers();返回所有可用的服务实例，即状态为up的实例</span></span><br><span class="line">            List&lt;Server&gt; reachableServers = lb.getReachableServers();</span><br><span class="line">            <span class="comment">//lb.getAllServers();返回请求的服务下所有服务实例</span></span><br><span class="line">            List&lt;Server&gt; allServers = lb.getAllServers();</span><br><span class="line">            <span class="comment">//二者的实例数量</span></span><br><span class="line">            <span class="keyword">int</span> upCount = reachableServers.size();</span><br><span class="line">            <span class="keyword">int</span> serverCount = allServers.size();</span><br><span class="line">			</span><br><span class="line">            <span class="comment">//若服务实例不存在，或无可用实例。返回提示日志</span></span><br><span class="line">            <span class="keyword">if</span> ((upCount == <span class="number">0</span>) || (serverCount == <span class="number">0</span>)) &#123;</span><br><span class="line">                log.warn(<span class="string">"No up servers available from load balancer: "</span> + lb);</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">            &#125;</span><br><span class="line">			<span class="comment">//incrementAndGetModulo(serverCount)方法直接计算返回了调用服务器server的下标</span></span><br><span class="line">            <span class="keyword">int</span> nextServerIndex = incrementAndGetModulo(serverCount);</span><br><span class="line">            <span class="comment">//获取到下标为nextServerIndex的服务器server</span></span><br><span class="line">            server = allServers.get(nextServerIndex);</span><br><span class="line">			</span><br><span class="line">            <span class="comment">//若无法获取到server，进行线程让步进入下一次循环。</span></span><br><span class="line">            <span class="keyword">if</span> (server == <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="comment">/* Transient. */</span></span><br><span class="line">                Thread.yield();</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">			<span class="comment">//当选取的server存活并可用，则返回服务调用方进一步操作</span></span><br><span class="line">            <span class="keyword">if</span> (server.isAlive() &amp;&amp; (server.isReadyToServe())) &#123;</span><br><span class="line">                <span class="keyword">return</span> (server);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Next.为下一次准备</span></span><br><span class="line">            server = <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">		</span><br><span class="line">    	<span class="comment">//选择超10次，无法获取到server，打印日志</span></span><br><span class="line">        <span class="keyword">if</span> (count &gt;= <span class="number">10</span>) &#123;</span><br><span class="line">            log.warn(<span class="string">"No available alive servers after 10 tries from load balancer: "</span></span><br><span class="line">                    + lb);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> server;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-
-
-</li>
-</ol>
-<ol start="3">
-<li><p>计算返回调用服务器server下标的关键方法：<code>incrementAndGetModulo(int modulo)</code></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//CAS操作加自旋锁</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">incrementAndGetModulo</span><span class="params">(<span class="keyword">int</span> modulo)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//死循环作自旋    </span></span><br><span class="line">    <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">        	<span class="comment">//获取value - CAS中对应旧的预期值expect A</span></span><br><span class="line">            <span class="keyword">int</span> current = nextServerCyclicCounter.get();</span><br><span class="line">            <span class="comment">//加1取余</span></span><br><span class="line">        	<span class="keyword">int</span> next = (current + <span class="number">1</span>) % modulo;</span><br><span class="line">        	<span class="comment">//进行CAS判断，保证上一步计算过程中，没有被其他线程或外部修改。若当前nextServerCyclicCounter与current值相同，则为true并将其设置为计算后的next。</span></span><br><span class="line">            <span class="keyword">if</span> (nextServerCyclicCounter.compareAndSet(current, next))</span><br><span class="line">                <span class="keyword">return</span> next;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>CAS : Conmpare And Swap是用于实现多线程同步的原子指令。CAS机制当中使用了3个基本操作数：内存地址V，旧的预期值A，要修改的新值B。更新一个变量的时候，只有当变量的预期值A和内存地址V当中的实际值相同时，才会将内存地址V对应的值修改为B</p>
-<p>自旋锁：是指当一个线程在获取锁的时候，如果锁已经被其它线程获取，那么该线程将循环等待，然后不断的判断锁是否能够被成功获取，直到获取到锁才会退出循环。</p>
-</blockquote>
-</li>
-</ol>
-
+        <h1 id="Eureka注册中心简介及使用"><a href="#Eureka注册中心简介及使用" class="headerlink" title="Eureka注册中心简介及使用"></a>Eureka注册中心简介及使用</h1><h2 id="一、服务治理"><a href="#一、服务治理" class="headerlink" title="一、服务治理"></a>一、服务治理</h2><p>微服务架构中，各个服务之间相对独立，有着各自的业务角色并相互调用。最常见的即是业务角色关系便是生产者-消费者关系。由生产者提供服务或者说业务的实现，而消费者由前端调用或是接收指定URI的请求访问生产者服务，从而完成业务再将结果返回客户端。在这个过程中，生产者与消费者之间的远程调用若没有使用额外组件进行管理，就只能单一的、点对点地使用URI访问，灵活性较差。</p>
+<p>再者，微服务架构下，服务数量较多而每个服务之间的依赖关系复杂、管理难度大。因而需要服务治理进行服务的管理，服务与服务之间依赖关系的统合，实现服务的rpc远程调用。服务治理亦必须要有一个注册中心，当需要调用某个服务的时候，就去注册中心中拉取服务列表，查看所需服务的实际服务通讯地址（同个服务若为集群形式，配备的负载均衡策略能够实现具体调用）</p>
+<p>注册中心的好处在于无需知道有多少提供方，仅需关注注册中心即可。继而降低了服务之间的耦合度。</p>
+        
       
          <!-- 添加版权声明 -->
     
@@ -252,7 +230,93 @@ var _hmt = _hmt || [];
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2020/12/07/%E3%80%90Ribbon%E3%80%91%E8%BD%AE%E8%AF%A2RoundRobinRule%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/">展开全文 >></a>
+          <a class="article-more-a" href="/2020/12/11/%E3%80%90SpringCloud%E3%80%91Eureka%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-【SpringCloud】轮询RoundRobinRule源码解析" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/12/07/%E3%80%90SpringCloud%E3%80%91%E8%BD%AE%E8%AF%A2RoundRobinRule%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/">【SpringCloud】Ribbon-轮询RoundRobinRule源码解析</a>
+    </h1>
+  
+
+        
+        
+<a href="/2020/12/07/%E3%80%90SpringCloud%E3%80%91%E8%BD%AE%E8%AF%A2RoundRobinRule%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" class="archive-article-date">
+  	<time datetime="2020-12-07T13:58:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-12-07</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Ribbon负载均衡默认策略-轮询简介"><a href="#Ribbon负载均衡默认策略-轮询简介" class="headerlink" title="Ribbon负载均衡默认策略 - 轮询简介"></a>Ribbon负载均衡默认策略 - 轮询简介</h1><p>轮询选择，轮询index，选择index对应位置的server</p>
+<p>index 的计算：rest接口第几次请求数 % 服务器集群总数量 = 实际调用服务器位置下标。每次服务重启后rest接口计数从1开始</p>
+<h1 id="RoundRobinRule源码"><a href="#RoundRobinRule源码" class="headerlink" title="RoundRobinRule源码"></a>RoundRobinRule源码</h1><ol>
+<li>域定义及构造器：</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RoundRobinRule</span> <span class="keyword">extends</span> <span class="title">AbstractLoadBalancerRule</span> </span>&#123;</span><br><span class="line">	<span class="comment">//AtomicInteger原子整型类，用于计算对应请求调用服务器的下标</span></span><br><span class="line">    <span class="keyword">private</span> AtomicInteger nextServerCyclicCounter;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">boolean</span> AVAILABLE_ONLY_SERVERS = <span class="keyword">true</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">boolean</span> ALL_SERVERS = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Logger log = LoggerFactory.getLogger(RoundRobinRule<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">RoundRobinRule</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//初始化为0</span></span><br><span class="line">        nextServerCyclicCounter = <span class="keyword">new</span> AtomicInteger(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">RoundRobinRule</span><span class="params">(ILoadBalancer lb)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>();</span><br><span class="line">        setLoadBalancer(lb);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        
+      
+         <!-- 添加版权声明 -->
+    
+    
+    <div class="declare" hidden="hidden"></div>
+    
+        <!-- 添加版权声明 -->
+  
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">SpringCloud</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/12/07/%E3%80%90SpringCloud%E3%80%91%E8%BD%AE%E8%AF%A2RoundRobinRule%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/">展开全文 >></a>
         </p>
       
 
@@ -303,18 +367,25 @@ var _hmt = _hmt || [];
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="一、关闭firewalld防火墙"><a href="#一、关闭firewalld防火墙" class="headerlink" title="一、关闭firewalld防火墙"></a>一、关闭firewalld防火墙</h1><h1 id="二、安装iptables防火墙服务"><a href="#二、安装iptables防火墙服务" class="headerlink" title="二、安装iptables防火墙服务"></a>二、安装iptables防火墙服务</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install iptables-services</span><br></pre></td></tr></table></figure>
+        <h1 id="一、关闭firewalld防火墙"><a href="#一、关闭firewalld防火墙" class="headerlink" title="一、关闭firewalld防火墙"></a>一、关闭firewalld防火墙</h1><p><img src="/2020/12/04/%E3%80%90%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E3%80%91%E5%88%9D%E5%A7%8B%E5%8C%96%E9%85%8D%E7%BD%AE/1.png" alt></p>
+<h1 id="二、安装iptables防火墙服务"><a href="#二、安装iptables防火墙服务" class="headerlink" title="二、安装iptables防火墙服务"></a>二、安装iptables防火墙服务</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install iptables-services</span><br></pre></td></tr></table></figure>
+
+
 
 <h1 id="三、修改iptables防火墙配置文件"><a href="#三、修改iptables防火墙配置文件" class="headerlink" title="三、修改iptables防火墙配置文件"></a>三、修改iptables防火墙配置文件</h1><p>文件为/etc/sysconfig/iptables</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/sysconfig/iptables</span><br></pre></td></tr></table></figure>
 
+<p><img src="/2020/12/04/%E3%80%90%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E3%80%91%E5%88%9D%E5%A7%8B%E5%8C%96%E9%85%8D%E7%BD%AE/2.png" alt></p>
 <h1 id="四、重启iptables-service"><a href="#四、重启iptables-service" class="headerlink" title="四、重启iptables.service"></a>四、重启iptables.service</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart iptables.service</span><br><span class="line">systemctl status iptables.service</span><br></pre></td></tr></table></figure>
 
+<p><img src="/2020/12/04/%E3%80%90%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E3%80%91%E5%88%9D%E5%A7%8B%E5%8C%96%E9%85%8D%E7%BD%AE/3.png" alt></p>
 <h1 id="（可选）五、阿里云控制台开放端口"><a href="#（可选）五、阿里云控制台开放端口" class="headerlink" title="（可选）五、阿里云控制台开放端口"></a>（可选）五、阿里云控制台开放端口</h1><ol>
 <li>进入阿里云服务器控制台 -》 对应服务器实例 -》安全 -》防火墙</li>
 <li>添加规则</li>
 <li>填入开放对应端口号</li>
 </ol>
+<p><img src="/2020/12/04/%E3%80%90%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E3%80%91%E5%88%9D%E5%A7%8B%E5%8C%96%E9%85%8D%E7%BD%AE/5.png" alt></p>
+<p><img src="/2020/12/04/%E3%80%90%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E3%80%91%E5%88%9D%E5%A7%8B%E5%8C%96%E9%85%8D%E7%BD%AE/4.png" alt></p>
 
       
          <!-- 添加版权声明 -->
@@ -334,7 +405,7 @@ var _hmt = _hmt || [];
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">服务器配</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">服务器配置</a>
         		</li>
       		
 		</ul>
@@ -978,88 +1049,6 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-【Spring】Spring-IOC原理" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/08/27/%E3%80%90Spring%E3%80%91Spring-IOC%E5%8E%9F%E7%90%86/">【Spring】Spring IOC原理</a>
-    </h1>
-  
-
-        
-        
-<a href="/2020/08/27/%E3%80%90Spring%E3%80%91Spring-IOC%E5%8E%9F%E7%90%86/" class="archive-article-date">
-  	<time datetime="2020-08-27T12:04:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-27</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h1><p>通过对IoC的思想及其实现方式DI有了一定的了解之后，我们知道Spring IoC的实质操作途径，是通过BeanFactory来创建实例Bean，并对Bean之间的关系进行管理，和依赖的注入。在需要Bean的时候，有BeanFactory来创建，而不需要开发者手动的创建Bean</p>
-<p>那么，接下来看看作为生产Bean的工厂BeanFactory是如何工作的，和Bean的相关属性及其生命周期</p>
-        
-      
-         <!-- 添加版权声明 -->
-    
-    
-    <div class="declare" hidden="hidden"></div>
-    
-        <!-- 添加版权声明 -->
-  
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Spring</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/08/27/%E3%80%90Spring%E3%80%91Spring-IOC%E5%8E%9F%E7%90%86/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
@@ -1177,19 +1166,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">博客使用</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">介绍</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">java基础</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">字符串</a>
+                <a href="javascript:void(0)" class="js-tag color5">博客使用</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1201,15 +1182,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">java基础</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">字符串</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Java并发</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">JVM虚拟机</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Java多线程</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Java并发</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1221,15 +1210,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Spring</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">服务器配</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">SpringCloud</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Spring</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1253,15 +1238,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">栈</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">动态规划</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">二分查找</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">栈</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1274,6 +1259,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">队列</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">服务器配置</a>
               </li>
              
               <li class="article-tag-list-item">
