@@ -177,6 +177,111 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Redis学习笔记：简单动态字符串" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/05/04/Redis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9A%E7%AE%80%E5%8D%95%E5%8A%A8%E6%80%81%E5%AD%97%E7%AC%A6%E4%B8%B2/">Redis学习笔记：简单动态字符串</a>
+    </h1>
+  
+
+        
+        
+<a href="/2021/05/04/Redis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9A%E7%AE%80%E5%8D%95%E5%8A%A8%E6%80%81%E5%AD%97%E7%AC%A6%E4%B8%B2/" class="archive-article-date">
+  	<time datetime="2021-05-04T07:11:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Simple-Dynamic-String"><a href="#Simple-Dynamic-String" class="headerlink" title="Simple Dynamic String"></a>Simple Dynamic String</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sdshdr</span> &#123;</span></span><br><span class="line">	<span class="comment">//记录buf数组中已使用字节的数量</span></span><br><span class="line">    <span class="comment">//等于SDS所保存字符串的长度</span></span><br><span class="line">    <span class="keyword">int</span> len;</span><br><span class="line">    <span class="comment">//记录buf数组中未使用字节的数量</span></span><br><span class="line">    <span class="keyword">int</span> <span class="built_in">free</span>;</span><br><span class="line">    <span class="comment">//字节数组，用于保存字符串</span></span><br><span class="line">    <span class="comment">//是SDS的底层数据实现结构-char数组</span></span><br><span class="line">    <span class="keyword">char</span> buf[];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>SDS作为Redis的默认字符串表示。Redis底层使用C语言编写但在字符串表示并没有直接使用C字符串，而是在C字符串的基础上封装了SDS结构，为字符串增添len属性和free属性，并且实现了主要操作函数API以对SDS进行操作。从而弥补C字符串的弊端，满足Redis对字符串在安全性、效率性以及功能方面的要求。</p>
+<p>综上，对SDS的特性学习可以针对C字符串在Redis使用上的劣势来完成。包括：</p>
+<ul>
+<li>获取一个C字符串长度，时间复杂度为O(N)。——获取字符串长度工作效率低</li>
+<li>对C字符串进行拼接操作前需检查空间是否足够，否则可能造成溢出。——安全性低</li>
+<li>对C字符串进行删减操作后需对空间进行释放，否则可能造成内存泄露。——同上</li>
+<li>C字符串默认以’\0’结尾，字符串中若出现空字符则将提前结束，只能保存文本数据。——使用局限</li>
+</ul>
+<h1 id="获取字符串长度时间复杂度为O-1"><a href="#获取字符串长度时间复杂度为O-1" class="headerlink" title="获取字符串长度时间复杂度为O(1)"></a>获取字符串长度时间复杂度为O(1)</h1><p>SDS在len属性中记录了SDS本身的长度，只要访问SDS的len属性就可以立即知道SDS的长度。时间复杂度仅为O(1)。</p>
+<p>另外，设置和更新SDS长度的工作由SDS的API在执行时自动完成，无需手动修改。</p>
+<h1 id="自动检查SDS空间，自动扩容"><a href="#自动检查SDS空间，自动扩容" class="headerlink" title="自动检查SDS空间，自动扩容"></a>自动检查SDS空间，自动扩容</h1><p>当SDS API需要对SDS进行修改时，API会先检查SDS的空间是否满足修改所需的要求，如果不满足的话，API会自动将SDS的空间扩展至执行修改所需的大小，然后才执行实际的修改操作。</p>
+<h1 id="使用free未使用空间优化空间分配"><a href="#使用free未使用空间优化空间分配" class="headerlink" title="使用free未使用空间优化空间分配"></a>使用free未使用空间优化空间分配</h1><p><strong>buf长度 = len + free + 1；</strong></p>
+<p>针对SDS的修改操作，包括增长字符串和缩短字符串，SDS实现了<strong>空间预分配</strong>和<strong>惰性空间释放</strong>两种优化策略</p>
+<h2 id="1、空间预分配"><a href="#1、空间预分配" class="headerlink" title="1、空间预分配"></a>1、空间预分配</h2><p>当SDS API对一个SDS进行修改，并且需要对SDS进行空间扩展的时候，程序不仅会为SDS分配修改所必要的空间，还会为SDS分配额外的未使用空间。未使用空间的额外分配数量包括以下两种：</p>
+<ul>
+<li>当修改后SDS的长度小于1MB，那么会分配同样大小的未使用空间。（即：小于1MB则复制）</li>
+<li>修改后SDS大于等于1MB，程序会分配1MB的未使用空间。</li>
+</ul>
+<p>通过空间预分配策略，Redis可以减少连续执行字符串增长操作所需的内存重分配次数。SDS将连续增长N次字符串所需的内存重分配次数从<strong>必定N次</strong>降低为<strong>最多N次</strong>。</p>
+<h2 id="2、惰性空间释放"><a href="#2、惰性空间释放" class="headerlink" title="2、惰性空间释放"></a>2、惰性空间释放</h2><p>一言以蔽之，当缩短SDS时，多出来的空间使用free作为未使用空间，而不是直接回收。</p>
+<p>避免了缩短字符串时所需的内存重分配操作，并为将来可能有的增长操作提供了优化。</p>
+<h1 id="二进制安全"><a href="#二进制安全" class="headerlink" title="二进制安全"></a>二进制安全</h1><p>C 字符串中除了末尾之外，字符串中不能包含空字符串，因为 C 字符串并不记录自身的长度，所以当遇到中间的空字符时，将会被误认为时字符串的结尾，所以 C 字符串只能保存为本数据，不能保存二进制数据。而 SDS 在读取数据的时候，可以根据len属性来判断字符串时候结束，保证了数据的准确性。</p>
+<h1 id="兼容部分C字符串函数"><a href="#兼容部分C字符串函数" class="headerlink" title="兼容部分C字符串函数"></a>兼容部分C字符串函数</h1><p>实际上，SDS是在C字符串的基础上进一步扩充，所以SDS可以在有需要时重用&lt;string.h&gt;库中的函数。</p>
+
+      
+         <!-- 添加版权声明 -->
+    
+    
+    <div class="declare" hidden="hidden"></div>
+    
+        <!-- 添加版权声明 -->
+  
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Redis</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/05/04/Redis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9A%E7%AE%80%E5%8D%95%E5%8A%A8%E6%80%81%E5%AD%97%E7%AC%A6%E4%B8%B2/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-【SpringCloud】OpenFeign服务接口调用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -382,24 +487,6 @@ var _hmt = _hmt || [];
         <h1 id="HashMap源码分析"><a href="#HashMap源码分析" class="headerlink" title="HashMap源码分析"></a>HashMap源码分析</h1><h2 id="一、-哈希算法引入"><a href="#一、-哈希算法引入" class="headerlink" title="一、 哈希算法引入"></a>一、 哈希算法引入</h2><p>​    哈希算法，又称散列函数，hash相当与把值映射到另外一个空间（函数的本质也即映射），因为可以选择比较好的hash函数，使得这种映射具备良好的随机性，使得碰撞概率得以控制得很好。将原空间的数据集的元素通过hash计算得到哈希码映射到另一个空间，而哈希码将作为此元素在映射空间的索引。</p>
 <p>​    在HashMap中，将调用key对象的<code>hashcode()</code>方法并通过一定的位运算及索引计算方法确定其KV 键值对在底层数组的下标（索引位置），从而令KV键值对存储能够根据“键”快速检索对应的“值”</p>
 <p>​    另外，哈希冲突是在hash算法中必然遇到的问题。由于映射空间必然小于原空间以方便处理，将会出现“非同的对象有着相同的哈希值”，所以需要对冲突进行特定处理，以下通过HashMap的底层结构将说明HashMap是如何处理哈希冲突。</p>
-<h2 id="二、HashMap底层数据结构"><a href="#二、HashMap底层数据结构" class="headerlink" title="二、HashMap底层数据结构"></a>二、HashMap底层数据结构</h2><ol>
-<li><h3 id="JDK1-8之前"><a href="#JDK1-8之前" class="headerlink" title="JDK1.8之前"></a>JDK1.8之前</h3><p>JDK1.8 之前 HashMap 由 数组+链表 组成的，数组是 HashMap 的主体，链表则是主要为了解决哈希冲突而存在的（“拉链法”解决冲突）.<strong>数组和链表</strong> 结合在一起使用也就是 <strong>链表散列</strong>。</p>
-<p>所谓 <strong>“拉链法”</strong> 就是：将链表和数组相结合。也就是说创建一个链表数组，数组中每一格就是一个链表。若遇到哈希冲突，则将冲突的值加到链表中即可。</p>
-<p><img src="/2020/12/12/%E3%80%90Java%E9%9B%86%E5%90%88%E3%80%91HashMap%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/jdk1.8%E4%B9%8B%E5%89%8D%E7%9A%84%E5%86%85%E9%83%A8%E7%BB%93%E6%9E%84.png" alt></p>
-<p><strong>HashMap 通过 key 的 hashCode 经过扰动函数处理过后得到 hash 值，然后通过 <code>(length - 1) &amp; hash</code> 判断当前元素存放的位置，如果当前位置存在元素的话，就判断该元素与要存入的元素的 hash 值以及 key 是否相同，如果相同的话，直接覆盖，不相同就通过拉链法解决冲突。</strong></p>
-<p><strong>所谓扰动函数指的就是 HashMap 的 <code>hash()</code> 方法。使用 <code>hash()</code>  方法可以有效减少碰撞。</strong></p>
-<p>以下为jdk1.8之前的<code>hash()</code>方法源码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">hash</span><span class="params">(<span class="keyword">int</span> h)</span> </span>&#123;<span class="comment">//h通常传入的为key.hashcode()</span></span><br><span class="line">    <span class="comment">// This function ensures that hashCodes that differ only by</span></span><br><span class="line">    <span class="comment">// constant multiples at each bit position have a bounded</span></span><br><span class="line">    <span class="comment">// number of collisions (approximately 8 at default load factor).</span></span><br><span class="line">    h ^= (h &gt;&gt;&gt; <span class="number">20</span>) ^ (h &gt;&gt;&gt; <span class="number">12</span>);</span><br><span class="line">    <span class="keyword">return</span> h ^ (h &gt;&gt;&gt; <span class="number">7</span>) ^ (h &gt;&gt;&gt; <span class="number">4</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><h3 id="JDK1-8之后"><a href="#JDK1-8之后" class="headerlink" title="JDK1.8之后"></a>JDK1.8之后</h3><p>JDK1.8 以后在解决哈希冲突时有了较大的变化，当链表长度大于阈值（默认为 8）时，将链表转化为红黑树（将链表转换成红黑树前会判断，如果当前数组的长度小于 64，那么会选择先进行数组扩容，而不是转换为红黑树），以减少搜索时间，具体可以参考 <code>treeifyBin</code>方法。</p>
-<p><img src="/2020/12/12/%E3%80%90Java%E9%9B%86%E5%90%88%E3%80%91HashMap%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/1.jpg" alt></p>
-<p>以下为jdk1.8之后的<code>hash()</code>方法源码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> <span class="title">hash</span><span class="params">(Object key)</span> </span>&#123;</span><br><span class="line">     <span class="comment">// ^ ：按位异或</span></span><br><span class="line">     <span class="comment">// &gt;&gt;&gt;:无符号右移，忽略符号位，空位都以0补齐</span></span><br><span class="line">       <span class="keyword">int</span> h;</span><br><span class="line">       <span class="keyword">return</span> (key == <span class="keyword">null</span>) ? <span class="number">0</span> : (h = key.hashCode()) ^ (h &gt;&gt;&gt; <span class="number">16</span>);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<hr>
-<hr>
         
       
          <!-- 添加版权声明 -->
@@ -968,103 +1055,6 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-【多线程并发】面试题汇总-持续更新" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/09/02/%E3%80%90%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%B9%B6%E5%8F%91%E3%80%91%E9%9D%A2%E8%AF%95%E9%A2%98%E6%B1%87%E6%80%BB-%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0/">【Java多线程并发】面试题汇总-持续更新</a>
-    </h1>
-  
-
-        
-        
-<a href="/2020/09/02/%E3%80%90%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%B9%B6%E5%8F%91%E3%80%91%E9%9D%A2%E8%AF%95%E9%A2%98%E6%B1%87%E6%80%BB-%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0/" class="archive-article-date">
-  	<time datetime="2020-09-02T03:51:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-02</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="多线程基础"><a href="#多线程基础" class="headerlink" title="多线程基础"></a>多线程基础</h1><ul>
-<li>什么是线程和进程？区别是什么？</li>
-<li>并发和并行有什么区别？</li>
-<li>守护线程是什么？</li>
-<li>为什么要使用多线程？</li>
-<li>使用多线程可能带来什么问题?</li>
-<li>线程的生命周期和状态是怎样？</li>
-<li>什么是上下文切换？</li>
-<li>什么是线程死锁？如何避免？</li>
-<li>创建线程有哪些方式？</li>
-<li>sleep()和wait()有什么区别？</li>
-<li>notify()和notifyAll()有什么区别？</li>
-<li>线程的run()和start()有什么区别？</li>
-<li>为什么调用start()方法时会执行run()方法，为什么不能直接调用run()方法？</li>
-<li>怎么保证多线程的运行安全？</li>
-<li>…</li>
-</ul>
-        
-      
-         <!-- 添加版权声明 -->
-    
-    
-    <div class="declare" hidden="hidden"></div>
-    
-        <!-- 添加版权声明 -->
-  
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Java并发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/09/02/%E3%80%90%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%B9%B6%E5%8F%91%E3%80%91%E9%9D%A2%E8%AF%95%E9%A2%98%E6%B1%87%E6%80%BB-%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
@@ -1079,7 +1069,7 @@ var _hmt = _hmt || [];
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2020 PassionZz/ZYX
+    		&copy; 2021 PassionZz/ZYX
     	</div>
       
     </div>
@@ -1186,7 +1176,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Java基础</a>
+                <a href="javascript:void(0)" class="js-tag color5">博客使用</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1195,6 +1185,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">字符串</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Redis</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Java基础</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1218,19 +1216,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Redis</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">博客使用</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">SpringCloud</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Eureka</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1239,6 +1225,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Ribbon</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Eureka</a>
               </li>
              
               <li class="article-tag-list-item">
